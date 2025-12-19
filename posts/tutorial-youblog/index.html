@@ -1,0 +1,698 @@
+<!DOCTYPE html><html lang="zh-HK" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>[0] 教你手搓一個屬於自己的博客 Butterfly閉源篇（實現基於GitHub Actions的全自動部署Hexo） | Butterfly</title><meta name="author" content="Jerry"><meta name="copyright" content="Jerry"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="更新时间：2025-09-27 23:32:33  Fork 本項目到自己的 GitHub 倉庫（博客原石）https:&#x2F;&#x2F;github.com&#x2F;jerryc127&#x2F;butterfly.js.org      在本地創建 SSH 密鑰對（鑰匙、鎖） 打開終端或命令提示符 執行以下命令創建密鑰對1ssh-keygen -t rsa -b 4096 將生成的公鑰（鎖） id_rsa_butterfl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[0] 教你手搓一個屬於自己的博客 Butterfly閉源篇（實現基於GitHub Actions的全自動部署Hexo）">
+<meta property="og:url" content="https://butterfly.js.org/posts/tutorial-youblog/">
+<meta property="og:site_name" content="Butterfly">
+<meta property="og:description" content="更新时间：2025-09-27 23:32:33  Fork 本項目到自己的 GitHub 倉庫（博客原石）https:&#x2F;&#x2F;github.com&#x2F;jerryc127&#x2F;butterfly.js.org      在本地創建 SSH 密鑰對（鑰匙、鎖） 打開終端或命令提示符 執行以下命令創建密鑰對1ssh-keygen -t rsa -b 4096 將生成的公鑰（鎖） id_rsa_butterfl">
+<meta property="og:locale" content="zh_HK">
+<meta property="og:image" content="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-9.png">
+<meta property="article:published_time" content="2025-09-26T19:30:33.000Z">
+<meta property="article:modified_time" content="2025-12-19T05:51:02.514Z">
+<meta property="article:author" content="Jerry">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="butterfly">
+<meta property="article:tag" content="教學">
+<meta property="article:tag" content="GitHub Actions">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-9.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "[0] 教你手搓一個屬於自己的博客 Butterfly閉源篇（實現基於GitHub Actions的全自動部署Hexo）",
+  "url": "https://butterfly.js.org/posts/tutorial-youblog/",
+  "image": "https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-9.png",
+  "datePublished": "2025-09-26T19:30:33.000Z",
+  "dateModified": "2025-12-19T05:51:02.514Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Jerry",
+      "url": "https://butterfly.js.org"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://butterfly.js.org/posts/tutorial-youblog/"><link rel="preconnect" href="https://jsd.012700.xyz"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><meta name="google-site-verification" content="NdIUXAOVyGnnBhcrip0ksCawbdAzT0hlBZDE9u4jx6k"/><meta name="msvalidate.01" content="567E47D75E8DCF1282B9623AD914701E"/><meta name="baidu-site-verification" content="code-pE5rnuxcfD"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://jsd.012700.xyz/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://jsd.012700.xyz/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到相關內容：${query}","hits_stats":"找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: Jerry","link":"連結: ","source":"來源: Butterfly","info":"版權屬於作者所有。商業用途請聯絡作者獲得授權，非商業用途請註明出處。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://jsd.012700.xyz/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加載更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '[0] 教你手搓一個屬於自己的博客 Butterfly閉源篇（實現基於GitHub Actions的全自動部署Hexo）',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="preconnect" href="https://jsd.012700.xyz"><link href="/self/btf.css" rel="stylesheet"><link rel="alternate" href="/atom.xml" title="Butterfly" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/loading.gif" data-lazy-src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">41</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">24</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-compass"></i><span> 頁面</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 歸檔</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 圖庫</span></a></li><li><a class="site-page child" href="/talking/"><i class="fa-fw fas fa-comment-dots"></i><span> 說說</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 示例</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文檔</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 標簽外挂</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-comment-dots"></i><span> 留言板</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-language"></i><span> 語言</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/en/"><i class="fa-fw fas fa-e"></i><span> English</span></a></li><li><a class="site-page child" href="/"><i class="fa-fw fas fa-c"></i><span> 中文</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-9.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Butterfly</span></a><a class="nav-page-title" href="/"><span class="site-name">[0] 教你手搓一個屬於自己的博客 Butterfly閉源篇（實現基於GitHub Actions的全自動部署Hexo）</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜尋</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-compass"></i><span> 頁面</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 歸檔</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 圖庫</span></a></li><li><a class="site-page child" href="/talking/"><i class="fa-fw fas fa-comment-dots"></i><span> 說說</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 示例</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文檔</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 標簽外挂</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-comment-dots"></i><span> 留言板</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-language"></i><span> 語言</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/en/"><i class="fa-fw fas fa-e"></i><span> English</span></a></li><li><a class="site-page child" href="/"><i class="fa-fw fas fa-c"></i><span> 中文</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">[0] 教你手搓一個屬於自己的博客 Butterfly閉源篇（實現基於GitHub Actions的全自動部署Hexo）<a class="post-edit-link" href="https://github.com/jerryc127/butterfly.js.org/edit/main/source/_posts/[0] 教你手搓一個屬於自己的博客 Butterfly閉源篇.md" rel="external nofollow noreferrer" title="編輯" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">發表於</span><time datetime="2025-09-26T19:30:33.000Z" title="發表於 2025-09-27 03:30:33">2025-09-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%99%E5%AD%B8/">教學</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字數統計:</span><span class="word-count">1.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>5分鐘</span></span><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="umamiPV" data-path="/posts/tutorial-youblog/"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><blockquote>
+<p>更新时间：2025-09-27 23:32:33</p>
+</blockquote>
+<h2 id="Fork-本項目到自己的-GitHub-倉庫（博客原石）"><a href="#Fork-本項目到自己的-GitHub-倉庫（博客原石）" class="headerlink" title="Fork 本項目到自己的 GitHub 倉庫（博客原石）"></a>Fork 本項目到自己的 GitHub 倉庫（博客原石）</h2><p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/jerryc127/butterfly.js.org">https://github.com/jerryc127/butterfly.js.org</a></p>
+<p><img src="/img/loading.gif" data-lazy-src="https://cloudflare-imgbed-7oz.pages.dev/file/1758920821402_GitHub%E5%85%A8%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2-1.png" alt="GitHub全自动部署-1.png"></p>
+<p><img src="/img/loading.gif" data-lazy-src="https://cloudflare-imgbed-7oz.pages.dev/file/1758920815866_GitHub%E5%85%A8%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2-2.png" alt="GitHub全自动部署-2.png"></p>
+<p><img src="/img/loading.gif" data-lazy-src="https://cloudflare-imgbed-7oz.pages.dev/file/1758920816732_GitHub%E5%85%A8%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2-3.png" alt="GitHub全自动部署-3.png"></p>
+<p><img src="/img/loading.gif" data-lazy-src="https://cloudflare-imgbed-7oz.pages.dev/file/1758920819579_GitHub%E5%85%A8%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2-4.png" alt="GitHub全自动部署-4.png"></p>
+<p><img src="/img/loading.gif" data-lazy-src="https://cloudflare-imgbed-7oz.pages.dev/file/1758979030584_GitHub%E5%85%A8%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2-9.png" alt="GitHub全自动部署-9.png"></p>
+<h2 id="在本地創建-SSH-密鑰對（鑰匙、鎖）"><a href="#在本地創建-SSH-密鑰對（鑰匙、鎖）" class="headerlink" title="在本地創建 SSH 密鑰對（鑰匙、鎖）"></a>在本地創建 SSH 密鑰對（鑰匙、鎖）</h2><ul>
+<li>打開終端或命令提示符</li>
+<li>執行以下命令創建密鑰對<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -b 4096</span><br></pre></td></tr></table></figure></li>
+<li>將生成的公鑰（鎖） <code>id_rsa_butterfly.pub</code> 內容複製到 GitHub 倉庫的部署密鑰設置中<ul>
+<li>執行以下命令查看公鑰內容</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> ~/.ssh/id_rsa_butterfly.pub</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">type</span> <span class="variable">$env</span>:USERPROFILE\.ssh\id_rsa_butterfly.pub</span><br></pre></td></tr></table></figure>
+<ul>
+<li>複製終端上的公鑰內容</li>
+<li>進入您的倉庫設置頁面</li>
+<li>選擇<code>SSH and GPG keys</code></li>
+<li>點擊<code>New SSH key</code></li>
+<li>將公鑰內容粘貼到<code>Key</code>字段中</li>
+<li>為密鑰添加<code>Title</code>，例如<code>id_rsa_butterfly.pub</code></li>
+<li>點擊<code>Add SSH key</code>保存密鑰</li>
+</ul>
+</li>
+</ul>
+<h2 id="管理多個賬號GitHub倉庫的SSH密鑰"><a href="#管理多個賬號GitHub倉庫的SSH密鑰" class="headerlink" title="管理多個賬號GitHub倉庫的SSH密鑰"></a>管理多個賬號GitHub倉庫的SSH密鑰</h2><ul>
+<li>若您有其他 GitHub 賬號，需要為每個賬號創建一個獨立的密鑰對</li>
+<li>每個密鑰對的文件名稱應包含賬號名稱，例如<code>id_rsa_vitepress</code>、<code>id_rsa_butterfly</code>等</li>
+<li>編輯<code>~/.ssh/config</code>文件（若不存在，則創建一個），添加以下內容</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Host github-vitepress</span><br><span class="line">  HostName github.com</span><br><span class="line">  User git</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa_vitepress</span><br><span class="line"></span><br><span class="line">Host github-butterfly</span><br><span class="line">  HostName github.com</span><br><span class="line">  User git</span><br><span class="line">  IdentityFile ~/.ssh/id_rsa_butterfly</span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-lazy-src="https://cloudflare-imgbed-7oz.pages.dev/file/1758920815738_GitHub%E7%99%BB%E5%BD%95%E5%87%AD%E6%8D%AE.png" alt="GitHub登录凭据.png"></p>
+<h2 id="刪除-HTTPS-登錄憑證，改用-SSH-登錄（博客鑰匙）"><a href="#刪除-HTTPS-登錄憑證，改用-SSH-登錄（博客鑰匙）" class="headerlink" title="刪除 HTTPS 登錄憑證，改用 SSH 登錄（博客鑰匙）"></a>刪除 HTTPS 登錄憑證，改用 SSH 登錄（博客鑰匙）</h2><ul>
+<li>刪除 HTTPS 登錄憑證后，git clone <code>博客原石</code> 到本地</li>
+<li>打開終端或命令提示符</li>
+<li>執行以下命令克隆<code>博客原石</code>到本地<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github-butterfly:&lt;您的用戶名&gt;/butterfly.js.org.git</span><br></pre></td></tr></table></figure></li>
+<li>確認登錄憑證已替換<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure>
+應該會看到類似以下的輸出：<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">origin  git@github-butterfly:&lt;您的用戶名&gt;/butterfly.js.org.git (fetch)</span><br><span class="line">origin  git@github-butterfly:&lt;您的用戶名&gt;/butterfly.js.org.git (push)</span><br></pre></td></tr></table></figure></li>
+<li>若不是以上的輸出：<ul>
+<li>打開終端或命令提示符</li>
+<li>執行以下命令將遠程倉庫地址替換為 SSH 地址</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote set-url origin git@github-butterfly:&lt;您的用戶名&gt;/butterfly.js.org.git </span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="將原工作流全數刪除，寫入GitHub-Actions全自動部署工作流"><a href="#將原工作流全數刪除，寫入GitHub-Actions全自動部署工作流" class="headerlink" title="將原工作流全數刪除，寫入GitHub Actions全自動部署工作流"></a>將原工作流全數刪除，寫入GitHub Actions全自動部署工作流</h2><ul>
+<li>刪除倉庫<code>.github/workflows/</code>文件夾裏的所有文件</li>
+<li>在倉庫<code>.github/workflows/</code>文件夾中創建一個名為<code>pages.yml</code>的文件</li>
+<li>填入以下內容</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">Pages</span></span><br><span class="line"></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">main</span> <span class="comment"># default branch</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v4</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">token:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.GITHUB_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">          <span class="comment"># If your repository depends on submodule, please see: https://github.com/actions/checkout</span></span><br><span class="line">          <span class="attr">submodules:</span> <span class="string">recursive</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Use</span> <span class="string">Node.js</span> <span class="number">20</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@v4</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="comment"># Examples: 20, 18.19, &gt;=16.20.2, lts/Iron, lts/Hydrogen, *, latest, current, node</span></span><br><span class="line">          <span class="comment"># Ref: https://github.com/actions/setup-node#supported-version-syntax</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="string">&quot;20&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Cache</span> <span class="string">NPM</span> <span class="string">dependencies</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/cache@v4</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">path:</span> <span class="string">node_modules</span></span><br><span class="line">          <span class="attr">key:</span> <span class="string">$&#123;&#123;</span> <span class="string">runner.OS</span> <span class="string">&#125;&#125;-npm-cache</span></span><br><span class="line">          <span class="attr">restore-keys:</span> <span class="string">|</span></span><br><span class="line"><span class="string">            $&#123;&#123; runner.OS &#125;&#125;-npm-cache</span></span><br><span class="line"><span class="string"></span>      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">Dependencies</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npm</span> <span class="string">run</span> <span class="string">build</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Commit</span> <span class="string">and</span> <span class="string">Push</span></span><br><span class="line">        <span class="attr">shell:</span> <span class="string">bash</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          ts=$(TZ=&quot;Asia/Shanghai&quot; date +&quot;%Z %Y-%m-%d %A %H:%M:%S&quot;)</span></span><br><span class="line"><span class="string">          cd ./public</span></span><br><span class="line"><span class="string">          git init</span></span><br><span class="line"><span class="string">          git config --global user.name &#x27;$&#123;&#123; secrets.GITHUBUSERNAME &#125;&#125;&#x27;</span></span><br><span class="line"><span class="string">          git config --global user.email &#x27;$&#123;&#123; secrets.GITHUBEMAIL &#125;&#125;&#x27;</span></span><br><span class="line"><span class="string">          git add .</span></span><br><span class="line"><span class="string">          git commit -m &quot;$&#123;&#123; github.event.head_commit.message &#125;&#125; $&#123;ts&#125; Updated By Github Actions&quot;</span></span><br><span class="line"><span class="string">          git push --force --quiet &quot;https://$&#123;&#123; secrets.GITHUBUSERNAME &#125;&#125;:$&#123;&#123; secrets.GITHUBTOKEN &#125;&#125;@github.com/$&#123;&#123; secrets.GITHUBUSERNAME &#125;&#125;/&lt;您的開源HTML倉庫名&gt;.git&quot; master:main</span></span><br><span class="line"><span class="string"></span>      <span class="comment"># - name: Upload Pages artifact</span></span><br><span class="line">      <span class="comment">#   uses: actions/upload-pages-artifact@v3</span></span><br><span class="line">      <span class="comment">#   with:</span></span><br><span class="line">      <span class="comment">#     path: ./public</span></span><br><span class="line">  <span class="comment"># deploy:</span></span><br><span class="line">  <span class="comment">#   needs: build</span></span><br><span class="line">  <span class="comment">#   permissions:</span></span><br><span class="line">  <span class="comment">#     pages: write</span></span><br><span class="line">  <span class="comment">#     id-token: write</span></span><br><span class="line">  <span class="comment">#   environment:</span></span><br><span class="line">  <span class="comment">#     name: github-pages</span></span><br><span class="line">  <span class="comment">#     url: $&#123;&#123; steps.deployment.outputs.page_url &#125;&#125;</span></span><br><span class="line">  <span class="comment">#   runs-on: ubuntu-latest</span></span><br><span class="line">  <span class="comment">#   steps:</span></span><br><span class="line">  <span class="comment">#     - name: Deploy to GitHub Pages</span></span><br><span class="line">  <span class="comment">#       id: deployment</span></span><br><span class="line">  <span class="comment">#       uses: actions/deploy-pages@v4</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="修改package-json文件"><a href="#修改package-json文件" class="headerlink" title="修改package.json文件"></a>修改package.json文件</h2><ul>
+<li>打開<code>package.json</code>文件</li>
+<li>找到<code>&quot;en&quot;: &quot;hexo clean &amp;&amp; hexo g &amp;&amp; hexo g --config config-en.yml -f &amp;&amp; hexo s&quot;</code>這一行</li>
+<li>在它後面添加<code>,</code>並另起一行填入一下内容</li>
+</ul>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;build&quot;</span>: <span class="string">&quot;hexo clean &amp;&amp; hexo generate&quot;</span>,</span><br><span class="line"><span class="string">&quot;clean&quot;</span>: <span class="string">&quot;hexo clean&quot;</span>,</span><br><span class="line"><span class="string">&quot;deploy&quot;</span>: <span class="string">&quot;hexo deploy&quot;</span>,</span><br><span class="line"><span class="string">&quot;server&quot;</span>: <span class="string">&quot;hexo server&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/img/loading.gif" data-lazy-src="https://cloudflare-imgbed-7oz.pages.dev/file/1758920820346_GitHub%E5%85%A8%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2-0.png" alt="GitHub全自动部署-0.png"></p>
+<h2 id="創建您的-GitHub-個人訪問令牌Personal-Access-Token（PAT）"><a href="#創建您的-GitHub-個人訪問令牌Personal-Access-Token（PAT）" class="headerlink" title="創建您的 GitHub 個人訪問令牌Personal Access Token（PAT）"></a>創建您的 GitHub 個人訪問令牌<code>Personal Access Token</code>（PAT）</h2><ul>
+<li>進入您的 GitHub 帳戶</li>
+<li>點擊<code>Settings</code></li>
+<li>選擇<code>Developer settings</code></li>
+<li>選擇<code>Personal access tokens</code></li>
+<li>選擇<code>Tokens (classic)</code></li>
+<li>點擊<code>Generate new token（classic）</code></li>
+<li>輸入令牌名稱，例如<code>Hexo-auto-deploy</code></li>
+<li>選擇<code>repo</code>（倉庫）作用域</li>
+<li>選擇<code>workflow</code>（工作流）作用域</li>
+<li>點擊<code>Generate token</code>生成令牌</li>
+<li>複製生成的令牌，用於之後的倉庫<code>GitHub Actions</code>配置<code>Secrets</code></li>
+</ul>
+<p><img src="/img/loading.gif" data-lazy-src="https://cloudflare-imgbed-7oz.pages.dev/file/1758923445887_GitHub%E5%85%A8%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2-6.png" alt="GitHub全自动部署-6.png"></p>
+<p><img src="/img/loading.gif" data-lazy-src="https://cloudflare-imgbed-7oz.pages.dev/file/1758978711856_GitHub%E5%85%A8%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2-7.png" alt="GitHub全自动部署-7.png"></p>
+<h2 id="因爲原Fork的倉庫不能設置可見性，所以需要創建一個新的倉庫作为閉源元倉庫"><a href="#因爲原Fork的倉庫不能設置可見性，所以需要創建一個新的倉庫作为閉源元倉庫" class="headerlink" title="因爲原Fork的倉庫不能設置可見性，所以需要創建一個新的倉庫作为閉源元倉庫"></a>因爲原Fork的倉庫不能設置可見性，所以需要創建一個新的倉庫作为閉源元倉庫</h2><ul>
+<li>進入您的 GitHub 帳戶</li>
+<li>點擊<code>New repository</code></li>
+<li>輸入新倉庫的名稱，例如<code>Meta-YouBlog</code></li>
+<li>點擊<code>Create repository</code>創建倉庫</li>
+<li>創建<code>3</code>個Secret<ul>
+<li><code>GITHUBUSERNAME</code>：您的 GitHub 用戶名</li>
+<li><code>GITHUBEMAIL</code>：您的 GitHub 郵箱</li>
+<li><code>GITHUBTOKEN</code>：您的 GitHub 個人訪問令牌（PAT）</li>
+</ul>
+</li>
+<li>啓用倉庫的<code>Actions</code>功能</li>
+</ul>
+<h2 id="最後創建另一個新的倉庫作爲公開倉庫，儲存靜態文件"><a href="#最後創建另一個新的倉庫作爲公開倉庫，儲存靜態文件" class="headerlink" title="最後創建另一個新的倉庫作爲公開倉庫，儲存靜態文件"></a>最後創建另一個新的倉庫作爲公開倉庫，儲存靜態文件</h2><h2 id="對本地倉庫、遠程的閉源元倉庫創建連結關係"><a href="#對本地倉庫、遠程的閉源元倉庫創建連結關係" class="headerlink" title="對本地倉庫、遠程的閉源元倉庫創建連結關係"></a>對本地倉庫、遠程的閉源元倉庫創建連結關係</h2>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add downstream git@github-butterfly:&lt;您的用戶名&gt;/&lt;您的閉源元倉庫名&gt;.git</span><br></pre></td></tr></table></figure>
+<p>  查看遠程倉庫連結關係<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote -v</span><br></pre></td></tr></table></figure><br>  輸出結果類似於以下內容<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">origin  git@github-butterfly:&lt;您的用戶名&gt;/butterfly.js.org.git (fetch)</span><br><span class="line">origin  git@github-butterfly:&lt;您的用戶名&gt;/butterfly.js.org.git (push)</span><br><span class="line">downstream        git@github-butterfly:&lt;您的用戶名&gt;/&lt;您的閉源元倉庫名&gt;.git (fetch)</span><br><span class="line">downstream        git@github-butterfly:&lt;您的用戶名&gt;/&lt;您的閉源元倉庫名&gt;.git (push)</span><br></pre></td></tr></table></figure></p>
+<h2 id="Commit-and-Push"><a href="#Commit-and-Push" class="headerlink" title="Commit and Push"></a>Commit and Push</h2>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">&quot;github action update&quot;</span></span><br><span class="line">git push downstream main</span><br></pre></td></tr></table></figure></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://butterfly.js.org">Jerry</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://butterfly.js.org/posts/tutorial-youblog/">https://butterfly.js.org/posts/tutorial-youblog/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">除特別聲明外，本博客所有文章均採用<a target="_blank" rel="noopener external nofollow noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明出處：<a href="https://butterfly.js.org">Butterfly</a>。</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Hexo/">Hexo</a><a class="post-meta__tags" href="/tags/butterfly/">butterfly</a><a class="post-meta__tags" href="/tags/%E6%95%99%E5%AD%B8/">教學</a><a class="post-meta__tags" href="/tags/GitHub-Actions/">GitHub Actions</a></div><div class="post-share"><div class="social-share" data-image="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-9.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://jsd.012700.xyz/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://jsd.012700.xyz/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>贊助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://jsd.012700.xyz/gh/jerryc127/CDN/Photo/wechat.jpg" rel="external nofollow noreferrer" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/CDN/Photo/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://jsd.012700.xyz/gh/jerryc127/CDN/Photo/alipay.jpg" rel="external nofollow noreferrer" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/CDN/Photo/alipay.jpg" alt="支付寶"/></a><div class="post-qr-code-desc">支付寶</div></li><li class="reward-item"><a href="https://buy.stripe.com/3cs6rP6YA91sbbG5kk" rel="external nofollow noreferrer" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/CDN@m2/img/stripe.png" alt="Stripe"/></a><div class="post-qr-code-desc">Stripe</div></li></ul></div></div><div class="ads-wrap"><ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8919908724705274" data-ad-slot="5978969231"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/youfrok/" title="[1] YouFrok"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-3.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一頁</div><div class="info-item-2">[1] YouFrok</div></div><div class="info-2"><div class="info-item-1"> 更新时间：2025-09-27 03:30:33  GitHub-xzsajo    序号 Name 备注 Upstream Sync    1 Custom_Clash_Rules 适用于 Clash 的多种分流规则，无 DNS 泄露 N   2 KPrompt AI提示词工程工作台 N   3 node-signin 每日自动执行签到任务：中国联通 N   4 xalpha 基金投资管理回测引擎 N   5 GoGoGo 虚拟定位 N   6 AI-Prompt-Protocols AI提示协议 N   7 CloudFlare-ImgBed 基于 CloudFlare 的图床 Y   8 SearchGram Telegram 中文聊天记录搜索机器人 N   9 CF-Workers-SUB 订阅转换 Y   10 xzsajo.github.io blog静态网页 -   11 hexo 生成 -&gt; 静态网页 -   12 Open-WebUI-Functions Azure AI Foundry Pipeline N   13 Sexual-Repression...</div></div></div></a><a class="pagination-related" href="/posts/5-5-release-notes/" title="Butterfly 5.5 更新日誌"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-7.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一頁</div><div class="info-item-2">Butterfly 5.5 更新日誌</div></div><div class="info-2"><div class="info-item-1">新功能 (Features) 改進 lazyload 過濾器，精確處理 img 標籤的 src 屬性 本地搜索增加分頁功能 說說頁面改為分頁導航 右下角按鈕添加效果 支持自定义脚本名称 #1732 增加子目錄項目懸停效果的過渡動畫 優化側邊欄子目錄的顯示效果，添加過渡動畫 添加卡片類別展開動畫效果 適配 Mathjax 4 重構 Algolia 搜索，从 InstantSearch.js 迁移到直接使用 Algoliasearch API 來實現 Algolia 搜索功能 重構配置管理，新增默認配置文件並優化評論系統配置處理 更新 README 和 README_CN 文件，增強內容清晰度與可讀性 更新标签頁样式，增强交互效果并优化动画表现 添加按钮效果样式，增强按钮交互体验 为备份添加备用名称  改進 (Improvements) 整合搜索，減少不必要的代碼冗餘 調整右側滾動百分比顯示邏輯，改善動畫效果 优化 note, button, label 标签外挂的夜间模式，优化文章导航和推荐的夜间模式显示 禁用結構化數據並更新默認配置格式 優化搜索界面樣式和用戶體驗  修復 (Fi...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關文章</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/openclash-manual-update-config/" title="[11] OpenClash 之 手动更新配置文件"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-5.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-21</div><div class="info-item-2">[11] OpenClash 之 手动更新配置文件</div></div><div class="info-2"><div class="info-item-1">下载配置文件单订阅模板： 1https://api.asailor.org/sub?target=clash&amp;new_name=true&amp;url=[订阅地址]&amp;config=https://testingcf.jsdelivr.net/gh/Aethersailor/Custom_OpenClash_Rules@main/cfg/Custom_Clash_Full.ini&amp;include=&amp;exclude=&amp;emoji=true&amp;list=false&amp;sort=false&amp;udp=true&amp;scv=true&amp;append_type=false&amp;fdn=true&amp;expand=false&amp;classic=true  [订阅地址] 替换成 自己的订阅地址  多订阅模板： 1https://api.asailor.org/sub?target=clash&amp;new_name=true&amp;url=[订阅地址]|[订阅地址]&amp;config=https%3A%2...</div></div></div></a><a class="pagination-related" href="/posts/create-new-post/" title="[2] 最速創建一篇新的 Hexo 文章"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-2.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-09-27</div><div class="info-item-2">[2] 最速創建一篇新的 Hexo 文章</div></div><div class="info-2"><div class="info-item-1">複製粘貼原始md文件 進入您的 butterfly.js.org 項目目錄 複製原始 Markdown 文件到 source/_posts/ 目錄 重命名文件，例如 最速創建一篇新的 Hexo 文章.md 修改 abbrlink 為您喜歡的短縮鏈接，例如 create-new-post  </div></div></div></a><a class="pagination-related" href="/posts/immortalwrt-for-d-team-newifi-d2/" title="[7] ImmortalWrt 固件 For D-Team Newifi D2"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-5.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-10-15</div><div class="info-item-2">[7] ImmortalWrt 固件 For D-Team Newifi D2</div></div><div class="info-2"><div class="info-item-1">123Model 型号: D-Team Newifi D2Platform 平台: ramips/mt7621（ImmortalWrt） 或 mipsel_24kc（update） 或 MediaTek MT7621（ImmortalWrt） Version 版本: 24.10.1 (r33048-cc720ea55a71)  BREED下载固件（稳定版）https://firmware-selector.immortalwrt.org/?version=24.10.1&amp;target=ramips%2Fmt7621&amp;id=d-team_newifi-d2 刷固件更新软件包列表1opkg update  安装依赖1opkg install coreutils-nohup bash dnsmasq-full curl ca-certificates ip-full libcap libcap-bin ruby ruby-yaml kmod-tun kmod-inet-diag unzip kmod-nft-tproxy luci-compat luci luci-ba...</div></div></div></a><a class="pagination-related" href="/posts/immortalwrt-for-phicomm-n1/" title="[9] ImmortalWrt 固件 For phicomm_n1"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-2.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-11-03</div><div class="info-item-2">[9] ImmortalWrt 固件 For phicomm_n1</div></div><div class="info-2"><div class="info-item-1">1234Model 型号: phicomm_n1Platform 平台: 	armsr/armv8（Immortalwrt） 或 AArch64 : Cortex-A53 x 4（WindTerm） 或 aarch64_generic（update）Version 版本: ImmortalWrt SNAPSHOT r0-72b5177&lt;https://github.com/xzsajo0314/amlogic-s9xxx-openwrt/releases&gt;  连接WiFi（ImmortalWrt）切换lan口协议为DHCP连接网线到lan口禁用无线更新软件包列表1opkg update / apk update  安装openssh-sftp-server1opkg install openssh-sftp-server / apk add openssh-sftp-server  安装SillyTavern（559 MB）12opkg install git-http / apk add git-httpgit clone https://github.com/Si...</div></div></div></a><a class="pagination-related" href="/posts/4-10-release-notes/" title="Butterfly 4.10 更新日誌"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2023/10/4-10-changelog.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-08</div><div class="info-item-2">Butterfly 4.10 更新日誌</div></div><div class="info-2"><div class="info-item-1">破壞性內容 更改 rightside-bottom 為 rightside_bottom 12- rightside-bottom:+ rightside_bottom:  重構 gallery 標籤外掛  寫法變更  默認為滾動到顯示區域才加載圖片  更改依賴， 由 nk-o&#x2F;flickr-justified-gallery 改為 egjs-infinitegrid 12345  CDN:    option:-      # flickr_justified_gallery_js:-      # flickr_justified_gallery_css:+      # egjs_infinitegrid:   更改 ClickShowText 為 clickShowText 123456789101112131415-ClickShowText:+clickShowText:  enable: false  text:    - I    - LOVEeeeeeeeeeeeee    - YOU  fontSize: 15px  random: true  mo...</div></div></div></a><a class="pagination-related" href="/posts/4-11-release-notes/" title="Butterfly 4.11 更新日誌"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2023/11/butterfly-4.11.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-24</div><div class="info-item-2">Butterfly 4.11 更新日誌</div></div><div class="info-2"><div class="info-item-1">內容 適配 hexo 7.0.0  修復 當瀏覽器不支持代碼複製時，提示不顯示的 bug 設置 click_to_scroll 後， 點擊標題中的鏈接無法正確跳轉的 bug 切換評論時，控制枱報 loadOtherComment 沒有定義的 bug  優化 sidebar ui 微調 避免因為沒有更新配置而報錯的問題 更新插件版本  </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/loading.gif" data-lazy-src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Jerry</div><div class="author-info-description">A Simple and Card UI Design theme for Hexo</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">41</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">24</div></a></div><a id="card-info-btn" target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/jerryc127/hexo-theme-butterfly"><i class="fab fa-github"></i><span>主題 GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:my@crazywong.com" rel="external nofollow noreferrer" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果你在使用中遇到問題，請到 <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/jerryc127/hexo-theme-butterfly/issues" style="color:#49b1f5">Github Issues</a> 進行反饋，你也可以加入反饋群（掃碼或者點擊圖片跳轉） <div class="aside-qrcode" > <a href="https://h5.qun.qq.com/s/vTHKfqL0nC" rel="external nofollow noreferrer" target="_blank"> <img src="/img/loading.gif" data-lazy-src="/img/qq.jpg" title="QQ 二維碼"></a> <a href="https://t.me/bu2fly" rel="external nofollow noreferrer" target="_blank"> <img src="/img/loading.gif" data-lazy-src="/img/tg.jpg" title="Telegram 二維碼"></a> </div></div></div><div class="card-widget card-docs card-categories"><div class="item-headline"><i class="fas fa-car-side"></i><span>文檔目錄</span></div><div class="item-content"><ul class=card-category-list>
+  <li class=card-category-list-item><a class=card-category-list-link href=/posts/21cfbf15/ >🚀 快速開始</a></li>
+  <li class=card-category-list-item><a class=card-category-list-link href=/posts/dc584b87/ >📑 主題頁面</a></li>
+  <li class=card-category-list-item><a class=card-category-list-link href=/posts/4aa8abbe/ >📌 主題配置</a></li>
+  <li class=card-category-list-item><a class=card-category-list-link href=/posts/ceeb73f/ >⚔️ 標簽外挂</a></li>
+  <li class=card-category-list-item><a class=card-category-list-link href=/posts/98d20436/ >❓ 主題問答</a></li>
+  <li class=card-category-list-item><a class=card-category-list-link href=/posts/4073eda/ >⚡️ 進階教程</a></li>
+</ul>
+</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Fork-%E6%9C%AC%E9%A0%85%E7%9B%AE%E5%88%B0%E8%87%AA%E5%B7%B1%E7%9A%84-GitHub-%E5%80%89%E5%BA%AB%EF%BC%88%E5%8D%9A%E5%AE%A2%E5%8E%9F%E7%9F%B3%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">Fork 本項目到自己的 GitHub 倉庫（博客原石）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%A8%E6%9C%AC%E5%9C%B0%E5%89%B5%E5%BB%BA-SSH-%E5%AF%86%E9%91%B0%E5%B0%8D%EF%BC%88%E9%91%B0%E5%8C%99%E3%80%81%E9%8E%96%EF%BC%89"><span class="toc-number">2.</span> <span class="toc-text">在本地創建 SSH 密鑰對（鑰匙、鎖）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%A1%E7%90%86%E5%A4%9A%E5%80%8B%E8%B3%AC%E8%99%9FGitHub%E5%80%89%E5%BA%AB%E7%9A%84SSH%E5%AF%86%E9%91%B0"><span class="toc-number">3.</span> <span class="toc-text">管理多個賬號GitHub倉庫的SSH密鑰</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%AA%E9%99%A4-HTTPS-%E7%99%BB%E9%8C%84%E6%86%91%E8%AD%89%EF%BC%8C%E6%94%B9%E7%94%A8-SSH-%E7%99%BB%E9%8C%84%EF%BC%88%E5%8D%9A%E5%AE%A2%E9%91%B0%E5%8C%99%EF%BC%89"><span class="toc-number">4.</span> <span class="toc-text">刪除 HTTPS 登錄憑證，改用 SSH 登錄（博客鑰匙）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%87%E5%8E%9F%E5%B7%A5%E4%BD%9C%E6%B5%81%E5%85%A8%E6%95%B8%E5%88%AA%E9%99%A4%EF%BC%8C%E5%AF%AB%E5%85%A5GitHub-Actions%E5%85%A8%E8%87%AA%E5%8B%95%E9%83%A8%E7%BD%B2%E5%B7%A5%E4%BD%9C%E6%B5%81"><span class="toc-number">5.</span> <span class="toc-text">將原工作流全數刪除，寫入GitHub Actions全自動部署工作流</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9package-json%E6%96%87%E4%BB%B6"><span class="toc-number">6.</span> <span class="toc-text">修改package.json文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%B5%E5%BB%BA%E6%82%A8%E7%9A%84-GitHub-%E5%80%8B%E4%BA%BA%E8%A8%AA%E5%95%8F%E4%BB%A4%E7%89%8CPersonal-Access-Token%EF%BC%88PAT%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">創建您的 GitHub 個人訪問令牌Personal Access Token（PAT）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9B%A0%E7%88%B2%E5%8E%9FFork%E7%9A%84%E5%80%89%E5%BA%AB%E4%B8%8D%E8%83%BD%E8%A8%AD%E7%BD%AE%E5%8F%AF%E8%A6%8B%E6%80%A7%EF%BC%8C%E6%89%80%E4%BB%A5%E9%9C%80%E8%A6%81%E5%89%B5%E5%BB%BA%E4%B8%80%E5%80%8B%E6%96%B0%E7%9A%84%E5%80%89%E5%BA%AB%E4%BD%9C%E4%B8%BA%E9%96%89%E6%BA%90%E5%85%83%E5%80%89%E5%BA%AB"><span class="toc-number">8.</span> <span class="toc-text">因爲原Fork的倉庫不能設置可見性，所以需要創建一個新的倉庫作为閉源元倉庫</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E5%BE%8C%E5%89%B5%E5%BB%BA%E5%8F%A6%E4%B8%80%E5%80%8B%E6%96%B0%E7%9A%84%E5%80%89%E5%BA%AB%E4%BD%9C%E7%88%B2%E5%85%AC%E9%96%8B%E5%80%89%E5%BA%AB%EF%BC%8C%E5%84%B2%E5%AD%98%E9%9D%9C%E6%85%8B%E6%96%87%E4%BB%B6"><span class="toc-number">9.</span> <span class="toc-text">最後創建另一個新的倉庫作爲公開倉庫，儲存靜態文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%8D%E6%9C%AC%E5%9C%B0%E5%80%89%E5%BA%AB%E3%80%81%E9%81%A0%E7%A8%8B%E7%9A%84%E9%96%89%E6%BA%90%E5%85%83%E5%80%89%E5%BA%AB%E5%89%B5%E5%BB%BA%E9%80%A3%E7%B5%90%E9%97%9C%E4%BF%82"><span class="toc-number">10.</span> <span class="toc-text">對本地倉庫、遠程的閉源元倉庫創建連結關係</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Commit-and-Push"><span class="toc-number">11.</span> <span class="toc-text">Commit and Push</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/%E9%BA%A5%E7%90%86%E6%B5%A9%E5%BE%91/" title="[25] 麥理浩徑"><img src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-6.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="[25] 麥理浩徑"/></a><div class="content"><a class="title" href="/posts/%E9%BA%A5%E7%90%86%E6%B5%A9%E5%BE%91/" title="[25] 麥理浩徑">[25] 麥理浩徑</a><time datetime="2025-12-18T15:18:33.000Z" title="發表於 2025-12-18 23:18:33">2025-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/xiaomi-mimo-timeline/" title="[24] Xiaomi MIMO 之 时间线"><img src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-7.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="[24] Xiaomi MIMO 之 时间线"/></a><div class="content"><a class="title" href="/posts/xiaomi-mimo-timeline/" title="[24] Xiaomi MIMO 之 时间线">[24] Xiaomi MIMO 之 时间线</a><time datetime="2025-12-18T04:11:33.000Z" title="發表於 2025-12-18 12:11:33">2025-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/usb-timeline/" title="[23] USB 之 时间线"><img src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="[23] USB 之 时间线"/></a><div class="content"><a class="title" href="/posts/usb-timeline/" title="[23] USB 之 时间线">[23] USB 之 时间线</a><time datetime="2025-12-16T08:16:33.000Z" title="發表於 2025-12-16 16:16:33">2025-12-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/%E7%BE%8E%E5%9B%A2%E4%BC%97%E5%8C%85/" title="[22] 美团众包"><img src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-4.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="[22] 美团众包"/></a><div class="content"><a class="title" href="/posts/%E7%BE%8E%E5%9B%A2%E4%BC%97%E5%8C%85/" title="[22] 美团众包">[22] 美团众包</a><time datetime="2025-12-11T18:16:33.000Z" title="發表於 2025-12-12 02:16:33">2025-12-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/k20-pro-revival/" title="K20 Pro 复活篇"><img src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-6.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="K20 Pro 复活篇"/></a><div class="content"><a class="title" href="/posts/k20-pro-revival/" title="K20 Pro 复活篇">K20 Pro 复活篇</a><time datetime="2025-12-09T16:31:33.000Z" title="發表於 2025-12-10 00:31:33">2025-12-10</time></div></div></div></div><div class="card-widget ads-wrap"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8919908724705274" data-ad-slot="8108145410" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script></div></div></div></main><footer id="footer" style="background-image: url(https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-9.png);"><div class="footer-flex"><div class="footer-flex-items"><div class="footer-flex-item"><div class="footer-flex-title">文檔</div><div class="footer-flex-content"><a href="/posts/21cfbf15/" target="_blank" title="🚀 快速開始">🚀 快速開始</a><a href="/posts/dc584b87/" target="_blank" title="📑 主題頁面">📑 主題頁面</a><a href="/posts/4aa8abbe/" target="_blank" title="📌 主題配置">📌 主題配置</a><a href="/posts/ceeb73f/" target="_blank" title="⚔️ 標簽外挂">⚔️ 標簽外挂</a><a href="/posts/98d20436/" target="_blank" title="❓ 主題問答">❓ 主題問答</a><a href="/posts/4073eda/" target="_blank" title="⚡️ 進階教程">⚡️ 進階教程</a></div></div></div><div class="footer-flex-items"><div class="footer-flex-item"><div class="footer-flex-title">其他</div><div class="footer-flex-content"><a href="/Gallery/" target="_blank" title="圖庫">圖庫</a><a href="/messageboard/" target="_blank" title="留言板">留言板</a><a href="/talking/" target="_blank" title="說說">說說</a><a href="/link/" target="_blank" title="示例">示例</a><a href="/links/" target="_blank" title="友链">友链</a></div></div></div><div class="footer-flex-items"><div class="footer-flex-item"><div class="footer-flex-title">框架</div><div class="footer-flex-content"><a href="https://hexo.io/zh-cn/" rel="external nofollow noreferrer" target="_blank" title="Hexo">Hexo</a><a href="https://butterfly.js.org/" target="_blank" title="Butterfly">Butterfly</a></div></div></div><div class="footer-flex-items"><div class="footer-flex-item"><div class="footer-flex-title">語言</div><div class="footer-flex-content"><a href="/en/" target="_blank" title="English">English</a><a href="/" target="_blank" title="中文">中文</a></div></div></div></div><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2019 - 2025 By Jerry</span><span class="framework-info"><span class="footer-separator">|</span><span>框架 </span><a target="_blank" rel="noopener external nofollow noreferrer" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="切換日夜模式"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄與雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="translateLink" type="button" title="簡繁轉換">簡</button><button id="go-up" type="button" title="回到頂部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://jsd.012700.xyz/npm/hexo-theme-butterfly/source/js/utils.min.js"></script><script src="https://jsd.012700.xyz/npm/hexo-theme-butterfly/source/js/main.min.js"></script><script src="https://jsd.012700.xyz/npm/hexo-theme-butterfly/source/js/tw_cn.min.js"></script><script src="https://jsd.012700.xyz/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://jsd.012700.xyz/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://jsd.012700.xyz/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://jsd.012700.xyz/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://jsd.012700.xyz/npm/chart.js/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script></div><script>window.newestComments = {
+  changeContent: content => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[圖片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[連結]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代碼]') // replace code
+    content = content.replace(/<code>.*?<\/code>/gi, '[代碼]') // replace code
+    content = content.replace(/<[^>]+>/g, "") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0, 150) + '...'
+    }
+    return content
+  },
+
+  generateHtml: (array, ele) => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class="aside-list-item">'
+
+        if (true && array[i].avatar) {
+          const imgAttr = 'data-lazy-src'
+          const lazyloadNative = ''
+          result += `<a href="${array[i].url}" class="thumbnail"><img ${imgAttr}="${array[i].avatar}" alt="${array[i].nick}" ${lazyloadNative}></a>`
+        }
+
+        result += `<div class="content">
+        <a class="comment" href="${array[i].url}" title="${array[i].content}">${array[i].content}</a>
+        <div class="name"><span>${array[i].nick} / </span><time datetime="${array[i].date}">${btf.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '暫無評論'
+    }
+
+    ele.innerHTML = result
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh(ele)
+  },
+
+  newestCommentInit: (name, getComment) => {
+    const $dom = document.querySelector('#card-newest-comments .aside-list')
+    if ($dom) {
+      const data = btf.saveToLocal.get(name)
+      if (data) {
+        newestComments.generateHtml(JSON.parse(data), $dom)
+      } else {
+        getComment($dom)
+      }
+    }
+  },
+
+  run: (name, getComment) => {
+    newestComments.newestCommentInit(name, getComment)
+    btf.addGlobalFn('pjaxComplete', () => newestComments.newestCommentInit(name, getComment), name)
+  }
+}</script><script>window.addEventListener('load', () => {
+  const keyName = 'artalk-newest-comments'
+  const { changeContent, generateHtml, run } = window.newestComments
+
+  const getAvatarValue = async () => {
+    const predefinedAvatarCdn = ''
+    const predefinedAvatarDefault = ''
+
+    const avatarDefaultFormat = e => e.startsWith('d=') ? e : `d=${e}`
+
+    if (predefinedAvatarCdn && predefinedAvatarDefault) {
+      return { avatarCdn: predefinedAvatarCdn, avatarDefault: avatarDefaultFormat(predefinedAvatarDefault) }
+    }
+
+    try {
+      const res = await fetch('https://artalk.crazywong.com/api/v2/conf')
+      const result = await res.json()
+      const { mirror, params, default: defaults } = result.frontend_conf.gravatar
+      const avatarCdn = predefinedAvatarCdn || mirror
+      let avatarDefault = avatarDefaultFormat(predefinedAvatarDefault || params || defaults)
+      return { avatarCdn, avatarDefault}
+    } catch (e) {
+      console.error(e)
+      return { avatarCdn: predefinedAvatarCdn, avatarDefault: avatarDefaultFormat(predefinedAvatarDefault) }
+    }
+  }
+
+  const searchParams = new URLSearchParams({
+    'site_name': 'Butterfly-Docs',
+    'limit': '12', // Fetch more comments to filter pending comments
+  })
+
+  const getComment = async (ele) => {
+    try {
+      const res = await fetch(`https://artalk.crazywong.com/api/v2/stats/latest_comments?${searchParams}`)
+      const result = await res.json()
+      const { avatarCdn, avatarDefault } = await getAvatarValue()
+      const artalk = result.data
+        .filter(e => !e.is_pending) // Filter pending comments
+        .slice(0, 6) // Limit the number of comments
+        .map(e => {
+          const avatar = avatarCdn && e.email_encrypted ? `${avatarCdn}${e.email_encrypted}?${avatarDefault}` : ''
+          return {
+            'avatar': avatar,
+            'content': changeContent(e.content_marked),
+            'nick': e.nick,
+            'url': e.page_url,
+            'date': e.date,
+          }
+        })
+      btf.saveToLocal.set(keyName, JSON.stringify(artalk), 5/(60*24))
+      generateHtml(artalk, ele)
+    } catch (e) {
+      console.log(e)
+      ele.textContent= "無法取得評論，請確認配置是否正確"
+    }
+  }
+
+  run(keyName, getComment)
+})</script><script data-pjax src="/self/btf.js"></script><script defer="defer" id="ribbon" src="https://jsd.012700.xyz/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script src="https://jsd.012700.xyz/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404') : window.location.href = '/404')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script>(() => {
+  const option = null
+  const config = {"site_uv":true,"site_pv":true,"page_pv":true,"token":"qTvz1SkmPDt785fgh6BpiA5qiFFIVUwxj8Ft+rPW+cdN59v1hXjwRgSmy0+ji9m+oLlcxvo2NfDSMa6epVl3NTlsN3ejCIwWeP8Y51aEJ0Sbem4UexGmJLspB7AkOBId2SdtT6QWEBlGmFIIQgchQ2zAKYxTmc/kpBED5aLSr+3uvmQ9/G7FJQeVFpveDkK0xM1hu36xq4a6/FSeROxtoEp5zabzTWiYTlLsQzIl/NlELnCq3nxK+oo/vl3UQo/oM/rae/gJX/MaVKsgIUCd2ABJogNkx2KTenBIBpbPki5FzOgPh6/z4GPa4HvhNO51DDVG1SEQZooqEYmt/gnybLBWFbN+7liZWw=="}
+
+  const runTrack = () => {
+    if (typeof umami !== 'undefined' && typeof umami.track === 'function') {
+      umami.track(props => ({ ...props, url: window.location.pathname, title: GLOBAL_CONFIG_SITE.title }))
+    } else {
+      console.warn('Umami Analytics: umami.track is not available')
+    }
+  }
+
+  const loadUmamiJS = () => {
+    btf.getScript('https://umami.012700.xyz/script.js', {
+      'data-website-id': '2a796d6c-6499-42d8-8eb4-d9a2930b0ff3',
+      'data-auto-track': 'false',
+      ...option
+    }).then(() => {
+      runTrack()
+    }).catch(error => {
+      console.error('Umami Analytics: Error loading script', error)
+    })
+  }
+
+  const getData = async (isPost) => {
+    try {
+      const now = Date.now()
+      const keyUrl = isPost ? `&url=${window.location.pathname}` : ''
+      const headerList = { 'Accept': 'application/json' }
+
+      if (true) {
+        headerList['Authorization'] = `Bearer ${config.token}`
+      } else {
+        headerList['x-umami-api-key'] = config.token
+      }
+
+      const res = await fetch(`https://umami.012700.xyz/api/websites/2a796d6c-6499-42d8-8eb4-d9a2930b0ff3/stats?startAt=0000000000&endAt=${now}${keyUrl}`, {
+        method: "GET",
+        headers: headerList
+      })
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
+
+      return await res.json()
+    } catch (error) {
+      console.error('Umami Analytics: Failed to fetch data', error)
+      throw error
+    }
+  }
+
+  const insertData = async () => {
+    try {
+      if (GLOBAL_CONFIG_SITE.pageType === 'post' && config.page_pv) {
+        const pagePV = document.getElementById('umamiPV')
+        if (pagePV) {
+          const data = await getData(true)
+          if (data && data.pageviews && typeof data.pageviews.value !== 'undefined') {
+            pagePV.textContent = data.pageviews.value
+          } else {
+            console.warn('Umami Analytics: Invalid page view data received')
+          }
+        }
+      }
+
+      if (config.site_uv || config.site_pv) {
+        const data = await getData(false)
+
+        if (config.site_uv) {
+          const siteUV = document.getElementById('umami-site-uv')
+          if (siteUV && data && data.visitors && typeof data.visitors.value !== 'undefined') {
+            siteUV.textContent = data.visitors.value
+          } else if (siteUV) {
+            console.warn('Umami Analytics: Invalid site UV data received')
+          }
+        }
+
+        if (config.site_pv) {
+          const sitePV = document.getElementById('umami-site-pv')
+          if (sitePV && data && data.pageviews && typeof data.pageviews.value !== 'undefined') {
+            sitePV.textContent = data.pageviews.value
+          } else if (sitePV) {
+            console.warn('Umami Analytics: Invalid site PV data received')
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Umami Analytics: Failed to insert data', error)
+    }
+  }
+
+  btf.addGlobalFn('pjaxComplete', runTrack, 'umami_analytics_run_track')
+  btf.addGlobalFn('pjaxComplete', insertData, 'umami_analytics_insert')
+
+
+  loadUmamiJS()
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', insertData)
+  } else {
+    setTimeout(insertData, 100)
+  }
+})()</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  正在加載數據庫</span></div><div class="local-search-input"><input placeholder="搜尋文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="https://jsd.012700.xyz/npm/hexo-theme-butterfly/source/js/search/local-search.min.js"></script></div></div></body></html>

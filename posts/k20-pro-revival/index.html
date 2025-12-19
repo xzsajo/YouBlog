@@ -1,0 +1,819 @@
+<!DOCTYPE html><html lang="zh-HK" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>K20 Pro 复活篇 | Butterfly</title><meta name="author" content="Jerry"><meta name="copyright" content="Jerry"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="设备ID：39ba4bd0 0. 下载小米解锁工具**（解BL锁, BL for BootLoader, 会擦除全部数据）**引用：https:&#x2F;&#x2F;www.coolapk.com&#x2F;feed&#x2F;58230223地址1https:&#x2F;&#x2F;web.vip.miui.com&#x2F;page&#x2F;info&#x2F;mio&#x2F;mio&#x2F;unlock地址2https:&#x2F;&#x2F;www.miui.com&#x2F;unlock&#x2F;index.html直链ht">
+<meta property="og:type" content="article">
+<meta property="og:title" content="K20 Pro 复活篇">
+<meta property="og:url" content="https://butterfly.js.org/posts/k20-pro-revival/">
+<meta property="og:site_name" content="Butterfly">
+<meta property="og:description" content="设备ID：39ba4bd0 0. 下载小米解锁工具**（解BL锁, BL for BootLoader, 会擦除全部数据）**引用：https:&#x2F;&#x2F;www.coolapk.com&#x2F;feed&#x2F;58230223地址1https:&#x2F;&#x2F;web.vip.miui.com&#x2F;page&#x2F;info&#x2F;mio&#x2F;mio&#x2F;unlock地址2https:&#x2F;&#x2F;www.miui.com&#x2F;unlock&#x2F;index.html直链ht">
+<meta property="og:locale" content="zh_HK">
+<meta property="og:image" content="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-6.png">
+<meta property="article:published_time" content="2025-12-09T16:31:33.000Z">
+<meta property="article:modified_time" content="2025-12-19T05:51:02.515Z">
+<meta property="article:author" content="Jerry">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="butterfly">
+<meta property="article:tag" content="K20">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-6.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "K20 Pro 复活篇",
+  "url": "https://butterfly.js.org/posts/k20-pro-revival/",
+  "image": "https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-6.png",
+  "datePublished": "2025-12-09T16:31:33.000Z",
+  "dateModified": "2025-12-19T05:51:02.515Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Jerry",
+      "url": "https://butterfly.js.org"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://butterfly.js.org/posts/k20-pro-revival/"><link rel="preconnect" href="https://jsd.012700.xyz"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin=""/><meta name="google-site-verification" content="NdIUXAOVyGnnBhcrip0ksCawbdAzT0hlBZDE9u4jx6k"/><meta name="msvalidate.01" content="567E47D75E8DCF1282B9623AD914701E"/><meta name="baidu-site-verification" content="code-pE5rnuxcfD"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://jsd.012700.xyz/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://jsd.012700.xyz/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!true && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          const mediaQueryDark = window.matchMedia('(prefers-color-scheme: dark)')
+          const mediaQueryLight = window.matchMedia('(prefers-color-scheme: light)')
+
+          if (theme === undefined) {
+            if (mediaQueryLight.matches) activateLightMode()
+            else if (mediaQueryDark.matches) activateDarkMode()
+            else {
+              const hour = new Date().getHours()
+              const isNight = hour <= 6 || hour >= 18
+              isNight ? activateDarkMode() : activateLightMode()
+            }
+            mediaQueryDark.addEventListener('change', () => {
+              if (saveToLocal.get('theme') === undefined) {
+                e.matches ? activateDarkMode() : activateLightMode()
+              }
+            })
+          } else {
+            theme === 'light' ? activateLightMode() : activateDarkMode()
+          }
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"pagination":{"enable":true,"hitsPerPage":8},"languages":{"hits_empty":"未找到相關內容：${query}","hits_stats":"找到 ${hits} 篇文章"}},
+  translate: {"defaultEncoding":1,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":400,"highlightFullpage":true,"highlightMacStyle":false},
+  copy: {
+    success: '複製成功',
+    error: '複製失敗',
+    noSupport: '瀏覽器不支援'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '剛剛',
+    min: '分鐘前',
+    hour: '小時前',
+    day: '天前',
+    month: '個月前'
+  },
+  copyright: {"limitCount":150,"languages":{"author":"作者: Jerry","link":"連結: ","source":"來源: Butterfly","info":"版權屬於作者所有。商業用途請聯絡作者獲得授權，非商業用途請註明出處。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://jsd.012700.xyz/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加載更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: true
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'K20 Pro 复活篇',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><link rel="preconnect" href="https://jsd.012700.xyz"><link href="/self/btf.css" rel="stylesheet"><link rel="alternate" href="/atom.xml" title="Butterfly" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/loading.gif" data-lazy-src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">41</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">24</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-compass"></i><span> 頁面</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 歸檔</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 圖庫</span></a></li><li><a class="site-page child" href="/talking/"><i class="fa-fw fas fa-comment-dots"></i><span> 說說</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 示例</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文檔</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 標簽外挂</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-comment-dots"></i><span> 留言板</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-language"></i><span> 語言</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/en/"><i class="fa-fw fas fa-e"></i><span> English</span></a></li><li><a class="site-page child" href="/"><i class="fa-fw fas fa-c"></i><span> 中文</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-6.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Butterfly</span></a><a class="nav-page-title" href="/"><span class="site-name">K20 Pro 复活篇</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首頁</span></span></a></span><div id="menus"><div id="search-button"><span class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜尋</span></span></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首頁</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-compass"></i><span> 頁面</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 歸檔</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 標籤</span></a></li><li><a class="site-page child" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分類</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 圖庫</span></a></li><li><a class="site-page child" href="/talking/"><i class="fa-fw fas fa-comment-dots"></i><span> 說說</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-thumbs-up"></i><span> 示例</span></a></li></ul></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-book"></i><span> 文檔</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/posts/21cfbf15/"><span> 🚀 快速開始</span></a></li><li><a class="site-page child" href="/posts/dc584b87/"><span> 📑 主題頁面</span></a></li><li><a class="site-page child" href="/posts/4aa8abbe/"><span> 🛠 主題配置</span></a></li><li><a class="site-page child" href="/posts/ceeb73f/"><span> ⚔️ 標簽外挂</span></a></li><li><a class="site-page child" href="/posts/98d20436/"><span> ❓ 主題問答</span></a></li><li><a class="site-page child" href="/posts/4073eda/"><span> ⚡️ 進階教程</span></a></li><li><a class="site-page child" href="/posts/198a4240/"><span> ✨ 更新日誌</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fas fa-comment-dots"></i><span> 留言板</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-language"></i><span> 語言</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/en/"><i class="fa-fw fas fa-e"></i><span> English</span></a></li><li><a class="site-page child" href="/"><i class="fa-fw fas fa-c"></i><span> 中文</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">K20 Pro 复活篇<a class="post-edit-link" href="https://github.com/jerryc127/butterfly.js.org/edit/main/source/_posts/[21] K20 Pro 复活篇.md" rel="external nofollow noreferrer" title="編輯" target="_blank"><i class="fas fa-pencil-alt"></i></a></h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">發表於</span><time datetime="2025-12-09T16:31:33.000Z" title="發表於 2025-12-10 00:31:33">2025-12-10</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/K20/">K20</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字數統計:</span><span class="word-count">1.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">閱讀時間:</span><span>7分鐘</span></span><span class="post-meta-separator">|</span><span id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">瀏覽量:</span><span id="umamiPV" data-path="/posts/k20-pro-revival/"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>设备ID：39ba4bd0</p>
+<h2 id="0-下载小米解锁工具-（解BL锁-BL-for-BootLoader-会擦除全部数据）"><a href="#0-下载小米解锁工具-（解BL锁-BL-for-BootLoader-会擦除全部数据）" class="headerlink" title="0. 下载小米解锁工具**（解BL锁, BL for BootLoader, 会擦除全部数据）**"></a>0. 下载小米解锁工具**（解BL锁, BL for BootLoader, 会擦除全部数据）**</h2><p>引用：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.coolapk.com/feed/58230223">https://www.coolapk.com/feed/58230223</a><br><strong>地址1</strong><br><a target="_blank" rel="noopener external nofollow noreferrer" href="https://web.vip.miui.com/page/info/mio/mio/unlock">https://web.vip.miui.com/page/info/mio/mio/unlock</a><br><strong>地址2</strong><br><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.miui.com/unlock/index.html">https://www.miui.com/unlock/index.html</a><br><strong>直链</strong><br><a target="_blank" rel="noopener external nofollow noreferrer" href="https://cdn.cnbj1.fds.api.mi-img.com/flash-tool/miflash_unlock_7.6.727.43.zip">https://cdn.cnbj1.fds.api.mi-img.com/flash-tool/miflash_unlock_7.6.727.43.zip</a></p>
+<h2 id="1-下载TWRP"><a href="#1-下载TWRP" class="headerlink" title="1. 下载TWRP"></a>1. 下载<strong>TWRP</strong></h2><p>引用：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.coolapk.com/feed/58247231?shareKey=NDhmMmY5YzY5MTQxNjc3M2E1N2I~&shareUid=3396388&shareFrom=com.coolapk.market_14.6.0">https://www.coolapk.com/feed/58247231?shareKey=NDhmMmY5YzY5MTQxNjc3M2E1N2I~&amp;shareUid=3396388&amp;shareFrom=com.coolapk.market_14.6.0</a><br><a target="_blank" rel="noopener external nofollow noreferrer" href="https://twrp.me/">https://twrp.me/</a><br><a target="_blank" rel="noopener external nofollow noreferrer" href="https://dl.twrp.me/raphael/">https://dl.twrp.me/raphael/</a>  </p>
+<ul>
+<li><p>酷安@Helium_Studio（TWRP 官方维护者 for Redmi K20 Pro ）<br>RikkaKernel Release Channel：720726952<br>123云盘链接：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.123pan.com/s/34QLVv-Re413.html">https://www.123pan.com/s/34QLVv-Re413.html</a><br>rk内核（RikkaKernel）123云盘链接：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.123pan.com/s/34QLVv-Xow13">https://www.123pan.com/s/34QLVv-Xow13</a><br>注：动态分区ROM请刷带&quot;DSP&quot;字样的内核，没有&quot;DSP&quot;字样的内核，安卓11-15的任何MIUI&#x2F;HyperOS通刷。引用自<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.coolapk.com/feed/60003942?shareKey=MWIwNmY3MWQ4OWFlNjc3Y2ZmMzU~&shareUid=3396388&shareFrom=com.coolapk.market_14.6.0">https://www.coolapk.com/feed/60003942?shareKey=MWIwNmY3MWQ4OWFlNjc3Y2ZmMzU~&amp;shareUid=3396388&amp;shareFrom=com.coolapk.market_14.6.0</a>  </p>
+</li>
+<li><p>酷安@TwinbornPlate75<br>cx内核（MIUICX）：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://wwvb.lanzout.com/b0hc0vvhe">https://wwvb.lanzout.com/b0hc0vvhe</a><br>密码：4q7t<br>注：内核已经是三合一状态，erofs ext4 dsp共用一个内核，不再需要人工选择。<br>自动识别动态&#x2F;静态 | 自带内核级调色</p>
+</li>
+</ul>
+<h2 id="2-下载ADB"><a href="#2-下载ADB" class="headerlink" title="2. 下载ADB"></a>2. 下载<strong>ADB</strong></h2><p><a target="_blank" rel="noopener external nofollow noreferrer" href="https://source.android.google.cn/docs/setup/build/adb?hl=zh-cn#download-adb">https://source.android.google.cn/docs/setup/build/adb?hl=zh-cn#download-adb</a></p>
+<p><code>fastboot flash recovery &lt;映像文件路径&gt;</code></p>
+<h2 id="3-下载MIUI-Xiaomi-HyperOS-双清"><a href="#3-下载MIUI-Xiaomi-HyperOS-双清" class="headerlink" title="3. 下载MIUI &#x2F; Xiaomi HyperOS + 双清"></a>3. 下载<strong>MIUI</strong> &#x2F; <strong>Xiaomi HyperOS</strong> + 双清</h2><p>引用：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.coolapk.com/feed/58270389?shareKey=ODc2YjBmMjA1NGQxNjc3M2E2M2Q~&shareUid=3396388&shareFrom=com.coolapk.market_14.6.0">https://www.coolapk.com/feed/58270389?shareKey=ODc2YjBmMjA1NGQxNjc3M2E2M2Q~&amp;shareUid=3396388&amp;shareFrom=com.coolapk.market_14.6.0</a><br>Redmi K20 Pro | V12.5.6.0.RFKCNXM | MIUI 12.5 | 11.0 | 稳定版 | 线刷包<br><a target="_blank" rel="noopener external nofollow noreferrer" href="https://xiaomirom.com/rom/redmi-k20-pro-mi-9t-pro-raphael-china-fastboot-recovery-rom/">https://xiaomirom.com/rom/redmi-k20-pro-mi-9t-pro-raphael-china-fastboot-recovery-rom/</a>  </p>
+<p>marchrui 魔改OS：群785500835<br>123云盘链接：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.123865.com/s/dHNqVv-mvdj3">https://www.123865.com/s/dHNqVv-mvdj3</a>  </p>
+<h2 id="4-下载Magisk获取-root-权限"><a href="#4-下载Magisk获取-root-权限" class="headerlink" title="4. 下载Magisk获取 root 权限"></a>4. 下载<strong>Magisk</strong>获取 root 权限</h2><p>引用：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.coolapk.com/feed/58293374?shareKey=YzI0MzRhYmZjMmVhNjc3M2E2MDU~&shareUid=3396388&shareFrom=com.coolapk.market_14.6.0">https://www.coolapk.com/feed/58293374?shareKey=YzI0MzRhYmZjMmVhNjc3M2E2MDU~&amp;shareUid=3396388&amp;shareFrom=com.coolapk.market_14.6.0</a><br>（Alpha | Magisk）<br>MagiskSU | Magisk Modules | MagiskBoot | Zygisk<br>Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/topjohnwu/Magisk/releases">https://github.com/topjohnwu/Magisk/releases</a><br>TG：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/magiskalpha">https://t.me/magiskalpha</a>  </p>
+<p>（Kitsune Mask）<br>MagiskHide | SuList | SuList<br>NOT_Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/HuskyDG/magisk-files/releases">https://github.com/HuskyDG/magisk-files/releases</a><br>Stable：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/HuskyDG/download/tree/main/magisk">https://github.com/HuskyDG/download/tree/main/magisk</a>  </p>
+<h2 id="5-下载LSPosed框架"><a href="#5-下载LSPosed框架" class="headerlink" title="5. 下载LSPosed框架"></a>5. 下载<strong>LSPosed</strong>框架</h2><p>Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/LSPosed/LSPosed/releases">https://github.com/LSPosed/LSPosed/releases</a><br>TG：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/LSPosed">https://t.me/LSPosed</a><br>JingMatrix：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/JingMatrix/LSPosed/releases">https://github.com/JingMatrix/LSPosed/releases</a>  </p>
+<p>内测<br><strong>LSPosed-v1.9.2-it-7287-release.zip</strong><br>我的图床：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://cloudflare-imgbed-7oz.pages.dev/file/1736180732503_LSPosed-v1.9.2-it-7287-release.zip">https://cloudflare-imgbed-7oz.pages.dev/file/1736180732503_LSPosed-v1.9.2-it-7287-release.zip</a><br>下载：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://xzsajo.lanzout.com/iUcTj2kdmore">https://xzsajo.lanzout.com/iUcTj2kdmore</a> 密码:9527</p>
+<h2 id="6-下载冰社模块（for-Fake-Location-1-3-2-2-AutoCMD-）"><a href="#6-下载冰社模块（for-Fake-Location-1-3-2-2-AutoCMD-）" class="headerlink" title="6. 下载冰社模块（for Fake_Location_1.3.2.2 &amp;&amp; AutoCMD+）"></a>6. 下载<strong>冰社</strong>模块（for Fake_Location_1.3.2.2 &amp;&amp; AutoCMD+）</h2><p>Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/bingqiu456/IceCore/releases">https://github.com/bingqiu456/IceCore/releases</a><br>Xposed-Modules-Repo：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/Xposed-Modules-Repo/me.bingyue.IceCore/releases">https://github.com/Xposed-Modules-Repo/me.bingyue.IceCore/releases</a><br>TG：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/bingyue_personal">https://t.me/bingyue_personal</a><br>QQ_Group：855183768  <a target="_blank" rel="noopener external nofollow noreferrer" href="https://qm.qq.com/q/hnbnj43qwM">https://qm.qq.com/q/hnbnj43qwM</a>  </p>
+<p>特征：<br>Fake Location_1.3.2.2<br>AutoCMD+<br>ES文件管理器</p>
+<h2 id="7-下载Fake-Location-1-3-2-2"><a href="#7-下载Fake-Location-1-3-2-2" class="headerlink" title="7. 下载Fake Location_1.3.2.2"></a>7. 下载<strong>Fake Location_1.3.2.2</strong></h2><p>1.3.2.2下载:<a target="_blank" rel="noopener external nofollow noreferrer" href="https://xzsajo.lanzout.com/i9gRr2k5z64d">https://xzsajo.lanzout.com/i9gRr2k5z64d</a> 密码:9527  </p>
+<p>Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/Lerist/FakeLocation/releases">https://github.com/Lerist/FakeLocation/releases</a><br>官网：<a target="_blank" rel="noopener external nofollow noreferrer" href="http://fakeloc.cc/app/">http://fakeloc.cc/app/</a>  <a target="_blank" rel="noopener external nofollow noreferrer" href="http://firim.lerist.cn/acmd">http://firim.lerist.cn/acmd</a>  </p>
+<p>AutoCMD+ 使用条款：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://acmd.io:4431/AutoCMD/html/terms_of_use.htm?lang=zh">https://acmd.io:4431/AutoCMD/html/terms_of_use.htm?lang=zh</a><br>AutoCMD+ 用户协议：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://acmd.io:4431/AutoCMD/html/user_agreement.htm?lang=zh">https://acmd.io:4431/AutoCMD/html/user_agreement.htm?lang=zh</a><br>AutoCMD+ 隐私政策：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://acmd.io:4431/AutoCMD/html/privacy_policy.htm?lang=zh">https://acmd.io:4431/AutoCMD/html/privacy_policy.htm?lang=zh</a>  </p>
+<p>Fake Location 使用条款：<a target="_blank" rel="noopener external nofollow noreferrer" href="http://api.fakeloc.cc:8000/FakeLocation/terms_of_use.html">http://api.fakeloc.cc:8000/FakeLocation/terms_of_use.html</a><br>Fake Location 用户协议：<a target="_blank" rel="noopener external nofollow noreferrer" href="http://api.fakeloc.cc:8000/FakeLocation/user_agreement.html">http://api.fakeloc.cc:8000/FakeLocation/user_agreement.html</a><br>Fake Location 隐私政策：<a target="_blank" rel="noopener external nofollow noreferrer" href="http://api.fakeloc.cc:8000/FakeLocation/privacy_policy.html">http://api.fakeloc.cc:8000/FakeLocation/privacy_policy.html</a>  </p>
+<h2 id="8-下载Shamiko模块"><a href="#8-下载Shamiko模块" class="headerlink" title="8. 下载Shamiko模块"></a>8. 下载<strong>Shamiko</strong>模块</h2><p>Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/LSPosed/LSPosed.github.io/releases">https://github.com/LSPosed/LSPosed.github.io/releases</a><br>TG：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/LSPosed">https://t.me/LSPosed</a>  </p>
+<p>Xposed Module Repository：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://modules.lsposed.org/">https://modules.lsposed.org/</a>  </p>
+<h2 id="9-下载MuMu12模拟器"><a href="#9-下载MuMu12模拟器" class="headerlink" title="9. 下载MuMu12模拟器"></a>9. 下载<strong>MuMu12</strong>模拟器</h2><p>Official：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://mumu.163.com/">https://mumu.163.com/</a>  </p>
+<h2 id="10-下载Play-Integrity-Fix模块"><a href="#10-下载Play-Integrity-Fix模块" class="headerlink" title="10. 下载Play_Integrity_Fix模块"></a>10. 下载<strong>Play_Integrity_Fix</strong>模块</h2><p>Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/chiteroman/PlayIntegrityFix/releases">https://github.com/chiteroman/PlayIntegrityFix/releases</a>  </p>
+<h2 id="11-下载Zygisk-Next模块"><a href="#11-下载Zygisk-Next模块" class="headerlink" title="11. 下载Zygisk_Next模块"></a>11. 下载<strong>Zygisk_Next</strong>模块</h2><p>Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/Dr-TSNG/ZygiskNext/releases">https://github.com/Dr-TSNG/ZygiskNext/releases</a>  </p>
+<h2 id="12-下载Tricky-Store模块"><a href="#12-下载Tricky-Store模块" class="headerlink" title="12. 下载Tricky_Store模块"></a>12. 下载<strong>Tricky_Store</strong>模块</h2><p>Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/5ec1cff/TrickyStore/releases">https://github.com/5ec1cff/TrickyStore/releases</a>  </p>
+<h2 id="13-下载HideRootAuxiliary模块"><a href="#13-下载HideRootAuxiliary模块" class="headerlink" title="13. 下载HideRootAuxiliary模块"></a>13. 下载<strong>HideRootAuxiliary</strong>模块</h2><p>文件名：<strong>WJWRootHideAuxiliary_1.6.1.zip</strong><br>作者分享链接：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://wwwf.lanzout.com/igvjo2hxizlc">https://wwwf.lanzout.com/igvjo2hxizlc</a>  </p>
+<h2 id="14-下载检测环境套装"><a href="#14-下载检测环境套装" class="headerlink" title="14. 下载检测环境套装"></a>14. 下载<strong>检测环境套装</strong></h2><ol>
+<li>prop detector_1.326</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/fantasytat">https://t.me/fantasytat</a></li>
+</ul>
+<ol start="2">
+<li>Native Detector_6.5.9</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/reveny/Android-Native-Root-Detector/releases">https://github.com/reveny/Android-Native-Root-Detector/releases</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/reveny1">https://t.me/reveny1</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/rootdetector">https://t.me/rootdetector</a></li>
+</ul>
+<ol start="3">
+<li>Applist Detector_2.4</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/HideMyApplist">https://t.me/HideMyApplist</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/Dr-TSNG/ApplistDetector/releases">https://github.com/Dr-TSNG/ApplistDetector/releases</a></li>
+</ul>
+<ol start="4">
+<li>SPIC_1.4.0</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/herzhenr/spic-android/releases">https://github.com/herzhenr/spic-android/releases</a>  </li>
+<li>Google Play Store</li>
+</ul>
+<ol start="5">
+<li>YASNAC_1.1.5</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/RikkaW/YASNAC/releases">https://github.com/RikkaW/YASNAC/releases</a></li>
+</ul>
+<ol start="6">
+<li>PIAC_1.2</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/1nikolas/play-integrity-checker-app">https://github.com/1nikolas/play-integrity-checker-app</a></li>
+</ul>
+<ol start="7">
+<li>检验者_1.0.9</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AkaneTan/Checker/releases">https://github.com/AkaneTan/Checker/releases</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/AkaneFoundation">https://t.me/AkaneFoundation</a></li>
+</ul>
+<ol start="8">
+<li>Native Test_30</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/Dr-TSNG/NativeDetector/releases">https://github.com/Dr-TSNG/NativeDetector/releases</a></li>
+</ul>
+<ol start="9">
+<li>Ruru_1.1.1</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/byxiaorun/Ruru/releases">https://github.com/byxiaorun/Ruru/releases</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/xrshop">https://t.me/xrshop</a></li>
+</ul>
+<ol start="10">
+<li>KeyAttestation密钥认证_1.7.0</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/vvb2060/KeyAttestation/releases">https://github.com/vvb2060/KeyAttestation/releases</a></li>
+</ul>
+<ol start="11">
+<li>Securify_1.3.0</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/RabehX/Securify/releases">https://github.com/RabehX/Securify/releases</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/RabehX">https://t.me/RabehX</a></li>
+</ul>
+<ol start="12">
+<li>Momo_4.4.1<br>引用：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://xdaforums.com/t/solved-question-where-to-get-momo-root-checker.4649125/">https://xdaforums.com/t/solved-question-where-to-get-momo-root-checker.4649125/</a></li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/magiskalpha">https://t.me/magiskalpha</a></li>
+</ul>
+<ol start="13">
+<li>Hunter_6.0.4</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="http://47.95.8.136:1111/update/apk/6.0.4.apk">http://47.95.8.136:1111/update/apk/6.0.4.apk</a></li>
+</ul>
+<ol start="14">
+<li>APT检测_1.3</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.54nb.com/apt13.apk">https://www.54nb.com/apt13.apk</a>  </li>
+<li>酷安ID：我叫鳞</li>
+</ul>
+<ol start="15">
+<li>TB Checker</li>
+</ol>
+<ul>
+<li>Google Play Store</li>
+</ul>
+<ol start="16">
+<li>Holmes_1.5.1</li>
+</ol>
+<ul>
+<li>未知</li>
+<li>下载：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://xzsajo.lanzout.com/ie9dz2kdmm6b">https://xzsajo.lanzout.com/ie9dz2kdmm6b</a> 密码:9527</li>
+</ul>
+<ol start="17">
+<li>MemoryDetector_2.1</li>
+</ol>
+<ul>
+<li>未知</li>
+<li>下载：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://xzsajo.lanzout.com/iQuf12kdn06f">https://xzsajo.lanzout.com/iQuf12kdn06f</a> 密码:9527</li>
+</ul>
+<ol start="18">
+<li>Luna_1.2.0.1</li>
+</ol>
+<ul>
+<li>交流群: iFlashing玩机隐藏群（1022646824）  </li>
+<li>酷安ID：我叫鳞</li>
+</ul>
+<ol start="19">
+<li>别碰无障碍</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/Nitsuya/DoNotTryAccessibility">https://github.com/Nitsuya/DoNotTryAccessibility</a></li>
+</ul>
+<ol start="20">
+<li>非残！</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/AoEiuV020/IAmNotDisabled">https://github.com/AoEiuV020/IAmNotDisabled</a></li>
+</ul>
+<ol start="21">
+<li>我不是开发者</li>
+</ol>
+<ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/xfqwdsj/IAmNotADeveloper">https://github.com/xfqwdsj/IAmNotADeveloper</a></li>
+</ul>
+<h2 id="15-下载Xposed模块"><a href="#15-下载Xposed模块" class="headerlink" title="15. 下载Xposed模块"></a>15. 下载<strong>Xposed</strong>模块</h2><h3 id="1-隐藏应用列表"><a href="#1-隐藏应用列表" class="headerlink" title="1. 隐藏应用列表"></a>1. 隐藏应用列表</h3><ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/Dr-TSNG/Hide-My-Applist/releases">https://github.com/Dr-TSNG/Hide-My-Applist/releases</a></li>
+</ul>
+<h3 id="2-AdClose模块（广告拦截）"><a href="#2-AdClose模块（广告拦截）" class="headerlink" title="2. AdClose模块（广告拦截）"></a>2. <strong>AdClose</strong>模块（广告拦截）</h3><p>TG：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/AdClose">https://t.me/AdClose</a><br>Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/zjyzip/AdClose">https://github.com/zjyzip/AdClose</a>  </p>
+<h3 id="3-微X模块"><a href="#3-微X模块" class="headerlink" title="3. 微X模块"></a>3. 微X模块</h3><p>Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/Xposed-Modules-Repo/com.fkzhang.wechatxposed/releases">https://github.com/Xposed-Modules-Repo/com.fkzhang.wechatxposed/releases</a><br>fkzhang模块交流群：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/fkzhang_wx">https://t.me/fkzhang_wx</a><br>fkzhang模块频道：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/fk_zhang">https://t.me/fk_zhang</a><br>下载：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://xzsajo.lanzout.com/ibE6O2kdmxub">https://xzsajo.lanzout.com/ibE6O2kdmxub</a> 密码:9527</p>
+<h3 id="4-QX模块"><a href="#4-QX模块" class="headerlink" title="4. QX模块"></a>4. QX模块</h3><p>Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/Xposed-Modules-Repo/com.fkzhang.qqxposed/releases">https://github.com/Xposed-Modules-Repo/com.fkzhang.qqxposed/releases</a>  </p>
+<h3 id="5-Fuck-for-VIP"><a href="#5-Fuck-for-VIP" class="headerlink" title="5. Fuck for VIP"></a>5. Fuck for VIP</h3><p>Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/Xposed-Modules-Repo/com.bug.hookvip/releases">https://github.com/Xposed-Modules-Repo/com.bug.hookvip/releases</a><br>Fuck_for_VIP更新发布频道：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/bugccx">https://t.me/bugccx</a>  </p>
+<h3 id="6-NewHookVip"><a href="#6-NewHookVip" class="headerlink" title="6. NewHookVip"></a>6. NewHookVip</h3><p>Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/Xposed-Modules-Repo/top.hookvip.pro/releases">https://github.com/Xposed-Modules-Repo/top.hookvip.pro/releases</a><br>HookVip更新发布频道：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/HookVipCl">https://t.me/HookVipCl</a><br>HookVip交流群：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://t.me/HookVipChat">https://t.me/HookVipChat</a>  </p>
+<h3 id="7-油管助手"><a href="#7-油管助手" class="headerlink" title="7. 油管助手"></a>7. 油管助手</h3><p>Official_Github：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/Xposed-Modules-Repo/com.wovow.youtubehelper/releases">https://github.com/Xposed-Modules-Repo/com.wovow.youtubehelper/releases</a>  </p>
+<h2 id="16-下载DevCheck"><a href="#16-下载DevCheck" class="headerlink" title="16. 下载DevCheck"></a>16. 下载<strong>DevCheck</strong></h2><ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://devcheck.app/">https://devcheck.app/</a>  </li>
+<li>Google Play Store</li>
+</ul>
+<h2 id="17-下载Shizuku"><a href="#17-下载Shizuku" class="headerlink" title="17. 下载Shizuku"></a>17. 下载<strong>Shizuku</strong></h2><ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://shizuku.rikka.app/zh-hans/introduction/">让你的应用直接使用系统 API</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://play.google.com/store/apps/details?id=moe.shizuku.privileged.api">Google play</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.coolapk.com/apk/moe.shizuku.privileged.api">Coolapk</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/RikkaApps/Shizuku/releases">GitHub</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://apt.izzysoft.de/fdroid/index/apk/moe.shizuku.privileged.api">IzzyOnDroid F-Droid Repository</a></li>
+</ul>
+<h2 id="18-下载存储空间隔离"><a href="#18-下载存储空间隔离" class="headerlink" title="18. 下载存储空间隔离"></a>18. 下载<strong>存储空间隔离</strong></h2><ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://sr.rikka.app/zh-hans/guide/">优雅地解决“坏应用”滥用存储权限的问题</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://play.google.com/store/apps/details?id=moe.shizuku.redirectstorage">Google play</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.coolapk.com/apk/moe.shizuku.redirectstorage">Coolapk</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/RikkaApps/StorageRedirect-assets/releases">GitHub</a></li>
+</ul>
+<h2 id="19-下载App-Ops（权限管理）"><a href="#19-下载App-Ops（权限管理）" class="headerlink" title="19. 下载App Ops（权限管理）"></a>19. 下载<strong>App Ops</strong>（权限管理）</h2><ul>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://appops.rikka.app/zh-hans/guide/">方便地控制隐藏的 appops</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://play.google.com/store/apps/details?id=rikka.appops">Google play</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.coolapk.com/apk/rikka.appops">Coolapk</a>  </li>
+<li><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/RikkaApps/App-Ops-issue-tracker/releases/tag/files">GitHub</a></li>
+</ul>
+<h2 id="20-下载Reqable抓包工具"><a href="#20-下载Reqable抓包工具" class="headerlink" title="20. 下载Reqable抓包工具"></a>20. 下载<strong>Reqable</strong>抓包工具</h2><ul>
+<li>GitHub：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/reqable/reqable-app/releases">https://github.com/reqable/reqable-app/releases</a>  </li>
+<li>Google Play：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://play.google.com/store/apps/details?id=com.reqable.android">https://play.google.com/store/apps/details?id=com.reqable.android</a>  </li>
+<li>Official：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://reqable.com/zh-CN/download/">https://reqable.com/zh-CN/download/</a></li>
+</ul>
+<h2 id="21-隐藏BL列表-1-5"><a href="#21-隐藏BL列表-1-5" class="headerlink" title="21. 隐藏BL列表_1.5"></a>21. 隐藏BL列表_1.5</h2><ul>
+<li>下载：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://xzsajo.lanzout.com/iX0s32kdms7i">https://xzsajo.lanzout.com/iX0s32kdms7i</a>  密码:9527</li>
+</ul>
+<h2 id="22-超级用户列表-1-0"><a href="#22-超级用户列表-1-0" class="headerlink" title="22. 超级用户列表_1.0"></a>22. 超级用户列表_1.0</h2><ul>
+<li>下载：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://xzsajo.lanzout.com/iyV612kdms6h">https://xzsajo.lanzout.com/iyV612kdms6h</a>  密码:9527</li>
+</ul>
+<h2 id="23-Fake-Location-Map"><a href="#23-Fake-Location-Map" class="headerlink" title="23. Fake Location Map"></a>23. Fake Location Map</h2><ul>
+<li>下载：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://xzsajo.lanzout.com/iaYS82qptv1a">https://xzsajo.lanzout.com/iaYS82qptv1a</a>  密码:9527</li>
+</ul>
+<h2 id="24-example"><a href="#24-example" class="headerlink" title="24. example"></a>24. example</h2><ul>
+<li>下载：<a target="_blank" rel="noopener external nofollow noreferrer" href="https://xzsajo.lanzout.com/i0MEj2qptv2b">https://xzsajo.lanzout.com/i0MEj2qptv2b</a>  密码:9527</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://butterfly.js.org">Jerry</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章連結: </span><span class="post-copyright-info"><a href="https://butterfly.js.org/posts/k20-pro-revival/">https://butterfly.js.org/posts/k20-pro-revival/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版權聲明: </span><span class="post-copyright-info">除特別聲明外，本博客所有文章均採用<a target="_blank" rel="noopener external nofollow noreferrer" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 授權協議。轉載請註明出處：<a href="https://butterfly.js.org">Butterfly</a>。</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Hexo/">Hexo</a><a class="post-meta__tags" href="/tags/butterfly/">butterfly</a><a class="post-meta__tags" href="/tags/K20/">K20</a></div><div class="post-share"><div class="social-share" data-image="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-6.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://jsd.012700.xyz/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://jsd.012700.xyz/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>贊助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://jsd.012700.xyz/gh/jerryc127/CDN/Photo/wechat.jpg" rel="external nofollow noreferrer" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/CDN/Photo/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://jsd.012700.xyz/gh/jerryc127/CDN/Photo/alipay.jpg" rel="external nofollow noreferrer" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/CDN/Photo/alipay.jpg" alt="支付寶"/></a><div class="post-qr-code-desc">支付寶</div></li><li class="reward-item"><a href="https://buy.stripe.com/3cs6rP6YA91sbbG5kk" rel="external nofollow noreferrer" target="_blank"><img class="post-qr-code-img" src="/img/loading.gif" data-lazy-src="https://jsd.012700.xyz/gh/jerryc127/CDN@m2/img/stripe.png" alt="Stripe"/></a><div class="post-qr-code-desc">Stripe</div></li></ul></div></div><div class="ads-wrap"><ins class="adsbygoogle" style="display:block" data-ad-format="fluid" data-ad-layout-key="-fb+5w+4e-db+86" data-ad-client="ca-pub-8919908724705274" data-ad-slot="5978969231"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/posts/%E7%BE%8E%E5%9B%A2%E4%BC%97%E5%8C%85/" title="[22] 美团众包"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-4.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一頁</div><div class="info-item-2">[22] 美团众包</div></div><div class="info-2"><div class="info-item-1">需要买美团装备吗？不需要。 需要办健康证吗？不需要。您当前已被限制接单，最多只能同时接3单，上传健康证可解除限制。   工作城市与定位城市不符您可能无法查看附近订单，请正确设置您的工作城市。 </div></div></div></a><a class="pagination-related" href="/posts/location-tips/" title="[20] 定位技巧"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-7.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一頁</div><div class="info-item-2">[20] 定位技巧</div></div><div class="info-2"><div class="info-item-1">注意：如果是南纬（S）或西经（W），结果需要加负号。例如：22°16&#39;40&quot;S 就是 -22.277777°。  [纬,经]谷歌Google  https://www.google.com.hk/maps/search/22.277778,114.147222 https://www.google.com.hk/maps/place/22°16&#39;40.0&quot;N+114°08&#39;50.0&quot;E  [经,纬]百度Baidu  https://api.map.baidu.com/lbsapi/getpoint/index.html  [经,纬]高德开放平台  https://lbs.amap.com/tools/picker  [反查文字位置]AR × 央视新闻 × 千寻位置 + Fake Location  https://ar.qxwz.com </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相關文章</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/posts/4-10-release-notes/" title="Butterfly 4.10 更新日誌"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2023/10/4-10-changelog.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-10-08</div><div class="info-item-2">Butterfly 4.10 更新日誌</div></div><div class="info-2"><div class="info-item-1">破壞性內容 更改 rightside-bottom 為 rightside_bottom 12- rightside-bottom:+ rightside_bottom:  重構 gallery 標籤外掛  寫法變更  默認為滾動到顯示區域才加載圖片  更改依賴， 由 nk-o&#x2F;flickr-justified-gallery 改為 egjs-infinitegrid 12345  CDN:    option:-      # flickr_justified_gallery_js:-      # flickr_justified_gallery_css:+      # egjs_infinitegrid:   更改 ClickShowText 為 clickShowText 123456789101112131415-ClickShowText:+clickShowText:  enable: false  text:    - I    - LOVEeeeeeeeeeeeee    - YOU  fontSize: 15px  random: true  mo...</div></div></div></a><a class="pagination-related" href="/posts/4-11-release-notes/" title="Butterfly 4.11 更新日誌"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2023/11/butterfly-4.11.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-24</div><div class="info-item-2">Butterfly 4.11 更新日誌</div></div><div class="info-2"><div class="info-item-1">內容 適配 hexo 7.0.0  修復 當瀏覽器不支持代碼複製時，提示不顯示的 bug 設置 click_to_scroll 後， 點擊標題中的鏈接無法正確跳轉的 bug 切換評論時，控制枱報 loadOtherComment 沒有定義的 bug  優化 sidebar ui 微調 避免因為沒有更新配置而報錯的問題 更新插件版本  </div></div></div></a><a class="pagination-related" href="/posts/4-12-release-notes/" title="Butterfly 4.12 更新日誌"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2023/12/butterfly-4-12-release-note.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2023-12-29</div><div class="info-item-2">Butterfly 4.12 更新日誌</div></div><div class="info-2"><div class="info-item-1">內容 適配 Artalk 新版本 card_post_series 可配置標題顯示為系列的名字 cdn 的 version 默認為 true  修復 當 front-matter 的 toc_number 沒有值時，toc_number 沒有按照主題配置應用的 bug Github 最新評論獲取報錯的 bug  優化 標題點擊範圍縮小為字體本身 Waline 增加 destroy 調用  </div></div></div></a><a class="pagination-related" href="/posts/4-13-release-notes/" title="Butterfly 4.13 更新日誌"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/02/4-13-release-notes.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-22</div><div class="info-item-2">Butterfly 4.13 更新日誌</div></div><div class="info-2"><div class="info-item-1">內容 適配 waline v3 適配 artalk 新版  修復 修復文章頁面，twikoo 無法獲取評論數的 bug  優化 首頁多個標籤和分類時，每個都增加標識 文章頁標題改為左邊  </div></div></div></a><a class="pagination-related" href="/posts/5-0-release-notes/" title="Butterfly 5.0 更新日誌"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/10/butterfly-docs-5-0-release-notes.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-17</div><div class="info-item-2">Butterfly 5.0 更新日誌</div></div><div class="info-2"><div class="info-item-1">重大變更由於整合了多個設定並更改了部分設定名稱，升級到 5.0 版本時，請重新設定 _config.yml 檔案。 新增功能與改進 新增 macstyle 設定，取消 mac &#x2F; mac light 主題設定 整合搜尋相關設定 修改程式碼區塊設定 主頁文章新增多種版面配置 新增說說頁面 適配 hexo-blog-encrypt 加密外掛 改善手機端目錄的開啟效果 新增平滑滾動功能 支援以程式碼區塊方式撰寫 mermaid 圖表 可自訂文章標題位置 新增程式碼全螢幕按鈕 友情連結頭像改為圓角設計 優化程式碼，使用 hexo-util 的參數和 hexo 內建參數 可自訂搜尋框提示文字 未設定選單時，不顯示側邊欄目錄和按鈕 螢幕寬度超過 2000px 時，增加卡片高度 根據語言設定調整字型：簡體中文使用雅黑，其他使用正黑體 更新 plugins.yml 全新的側邊欄介面設計 新增 giscus 的 js 設定 調整 utterances js 的設定位置 新增 utterances option 設定 修改 giscus 的主題設定 多個介面元素改為圓角設計 可選擇圓角或直...</div></div></div></a><a class="pagination-related" href="/posts/5-1-release-notes/" title="Butterfly 5.1 更新日誌"><img class="cover" src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/10/butterfly-docs-5-1-0-release-note.png" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-10-20</div><div class="info-item-2">Butterfly 5.1 更新日誌</div></div><div class="info-2"><div class="info-item-1">新功能 添加 chart.js 圖表庫（標籤外挂） 適配 Algolia Search 5.0 搜索分頁按鈕圓角化 本地搜索結果列表顯示數字排序 章節導航和相關推薦支持 hover 顯示文章介紹 移除 Daovoice 導航欄添加背景虛化效果 導航欄 hover 效果增加圓角  修復 修復不啟用評論系統時，不蒜子統計不顯示的問題 修復背景漸變色無法生效的問題  改進 説説的標籤可選填 代碼精簡和優化 移動到説説日期，顯示完整的日期時間 説説的時間標籤改為 time 標籤 延遲調用 abcjs 函數以解決渲染問題 調整側邊欄文章分類的字體大小  </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/loading.gif" data-lazy-src="/img/butterfly-icon.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Jerry</div><div class="author-info-description">A Simple and Card UI Design theme for Hexo</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">51</div></a><a href="/tags/"><div class="headline">標籤</div><div class="length-num">41</div></a><a href="/categories/"><div class="headline">分類</div><div class="length-num">24</div></a></div><a id="card-info-btn" target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/jerryc127/hexo-theme-butterfly"><i class="fab fa-github"></i><span>主題 GitHub</span></a><div class="card-info-social-icons"><a class="social-icon" href="mailto:my@crazywong.com" rel="external nofollow noreferrer" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/atom.xml" target="_blank" title="RSS"><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">如果你在使用中遇到問題，請到 <a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/jerryc127/hexo-theme-butterfly/issues" style="color:#49b1f5">Github Issues</a> 進行反饋，你也可以加入反饋群（掃碼或者點擊圖片跳轉） <div class="aside-qrcode" > <a href="https://h5.qun.qq.com/s/vTHKfqL0nC" rel="external nofollow noreferrer" target="_blank"> <img src="/img/loading.gif" data-lazy-src="/img/qq.jpg" title="QQ 二維碼"></a> <a href="https://t.me/bu2fly" rel="external nofollow noreferrer" target="_blank"> <img src="/img/loading.gif" data-lazy-src="/img/tg.jpg" title="Telegram 二維碼"></a> </div></div></div><div class="card-widget card-docs card-categories"><div class="item-headline"><i class="fas fa-car-side"></i><span>文檔目錄</span></div><div class="item-content"><ul class=card-category-list>
+  <li class=card-category-list-item><a class=card-category-list-link href=/posts/21cfbf15/ >🚀 快速開始</a></li>
+  <li class=card-category-list-item><a class=card-category-list-link href=/posts/dc584b87/ >📑 主題頁面</a></li>
+  <li class=card-category-list-item><a class=card-category-list-link href=/posts/4aa8abbe/ >📌 主題配置</a></li>
+  <li class=card-category-list-item><a class=card-category-list-link href=/posts/ceeb73f/ >⚔️ 標簽外挂</a></li>
+  <li class=card-category-list-item><a class=card-category-list-link href=/posts/98d20436/ >❓ 主題問答</a></li>
+  <li class=card-category-list-item><a class=card-category-list-link href=/posts/4073eda/ >⚡️ 進階教程</a></li>
+</ul>
+</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目錄</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0-%E4%B8%8B%E8%BD%BD%E5%B0%8F%E7%B1%B3%E8%A7%A3%E9%94%81%E5%B7%A5%E5%85%B7-%EF%BC%88%E8%A7%A3BL%E9%94%81-BL-for-BootLoader-%E4%BC%9A%E6%93%A6%E9%99%A4%E5%85%A8%E9%83%A8%E6%95%B0%E6%8D%AE%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">0. 下载小米解锁工具**（解BL锁, BL for BootLoader, 会擦除全部数据）**</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-%E4%B8%8B%E8%BD%BDTWRP"><span class="toc-number">2.</span> <span class="toc-text">1. 下载TWRP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-%E4%B8%8B%E8%BD%BDADB"><span class="toc-number">3.</span> <span class="toc-text">2. 下载ADB</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-%E4%B8%8B%E8%BD%BDMIUI-Xiaomi-HyperOS-%E5%8F%8C%E6%B8%85"><span class="toc-number">4.</span> <span class="toc-text">3. 下载MIUI &#x2F; Xiaomi HyperOS + 双清</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-%E4%B8%8B%E8%BD%BDMagisk%E8%8E%B7%E5%8F%96-root-%E6%9D%83%E9%99%90"><span class="toc-number">5.</span> <span class="toc-text">4. 下载Magisk获取 root 权限</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-%E4%B8%8B%E8%BD%BDLSPosed%E6%A1%86%E6%9E%B6"><span class="toc-number">6.</span> <span class="toc-text">5. 下载LSPosed框架</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-%E4%B8%8B%E8%BD%BD%E5%86%B0%E7%A4%BE%E6%A8%A1%E5%9D%97%EF%BC%88for-Fake-Location-1-3-2-2-AutoCMD-%EF%BC%89"><span class="toc-number">7.</span> <span class="toc-text">6. 下载冰社模块（for Fake_Location_1.3.2.2 &amp;&amp; AutoCMD+）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-%E4%B8%8B%E8%BD%BDFake-Location-1-3-2-2"><span class="toc-number">8.</span> <span class="toc-text">7. 下载Fake Location_1.3.2.2</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-%E4%B8%8B%E8%BD%BDShamiko%E6%A8%A1%E5%9D%97"><span class="toc-number">9.</span> <span class="toc-text">8. 下载Shamiko模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-%E4%B8%8B%E8%BD%BDMuMu12%E6%A8%A1%E6%8B%9F%E5%99%A8"><span class="toc-number">10.</span> <span class="toc-text">9. 下载MuMu12模拟器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-%E4%B8%8B%E8%BD%BDPlay-Integrity-Fix%E6%A8%A1%E5%9D%97"><span class="toc-number">11.</span> <span class="toc-text">10. 下载Play_Integrity_Fix模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-%E4%B8%8B%E8%BD%BDZygisk-Next%E6%A8%A1%E5%9D%97"><span class="toc-number">12.</span> <span class="toc-text">11. 下载Zygisk_Next模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#12-%E4%B8%8B%E8%BD%BDTricky-Store%E6%A8%A1%E5%9D%97"><span class="toc-number">13.</span> <span class="toc-text">12. 下载Tricky_Store模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#13-%E4%B8%8B%E8%BD%BDHideRootAuxiliary%E6%A8%A1%E5%9D%97"><span class="toc-number">14.</span> <span class="toc-text">13. 下载HideRootAuxiliary模块</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#14-%E4%B8%8B%E8%BD%BD%E6%A3%80%E6%B5%8B%E7%8E%AF%E5%A2%83%E5%A5%97%E8%A3%85"><span class="toc-number">15.</span> <span class="toc-text">14. 下载检测环境套装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#15-%E4%B8%8B%E8%BD%BDXposed%E6%A8%A1%E5%9D%97"><span class="toc-number">16.</span> <span class="toc-text">15. 下载Xposed模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%9A%90%E8%97%8F%E5%BA%94%E7%94%A8%E5%88%97%E8%A1%A8"><span class="toc-number">16.1.</span> <span class="toc-text">1. 隐藏应用列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-AdClose%E6%A8%A1%E5%9D%97%EF%BC%88%E5%B9%BF%E5%91%8A%E6%8B%A6%E6%88%AA%EF%BC%89"><span class="toc-number">16.2.</span> <span class="toc-text">2. AdClose模块（广告拦截）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%BE%AEX%E6%A8%A1%E5%9D%97"><span class="toc-number">16.3.</span> <span class="toc-text">3. 微X模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-QX%E6%A8%A1%E5%9D%97"><span class="toc-number">16.4.</span> <span class="toc-text">4. QX模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Fuck-for-VIP"><span class="toc-number">16.5.</span> <span class="toc-text">5. Fuck for VIP</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-NewHookVip"><span class="toc-number">16.6.</span> <span class="toc-text">6. NewHookVip</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%B2%B9%E7%AE%A1%E5%8A%A9%E6%89%8B"><span class="toc-number">16.7.</span> <span class="toc-text">7. 油管助手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#16-%E4%B8%8B%E8%BD%BDDevCheck"><span class="toc-number">17.</span> <span class="toc-text">16. 下载DevCheck</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#17-%E4%B8%8B%E8%BD%BDShizuku"><span class="toc-number">18.</span> <span class="toc-text">17. 下载Shizuku</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#18-%E4%B8%8B%E8%BD%BD%E5%AD%98%E5%82%A8%E7%A9%BA%E9%97%B4%E9%9A%94%E7%A6%BB"><span class="toc-number">19.</span> <span class="toc-text">18. 下载存储空间隔离</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#19-%E4%B8%8B%E8%BD%BDApp-Ops%EF%BC%88%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86%EF%BC%89"><span class="toc-number">20.</span> <span class="toc-text">19. 下载App Ops（权限管理）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#20-%E4%B8%8B%E8%BD%BDReqable%E6%8A%93%E5%8C%85%E5%B7%A5%E5%85%B7"><span class="toc-number">21.</span> <span class="toc-text">20. 下载Reqable抓包工具</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#21-%E9%9A%90%E8%97%8FBL%E5%88%97%E8%A1%A8-1-5"><span class="toc-number">22.</span> <span class="toc-text">21. 隐藏BL列表_1.5</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#22-%E8%B6%85%E7%BA%A7%E7%94%A8%E6%88%B7%E5%88%97%E8%A1%A8-1-0"><span class="toc-number">23.</span> <span class="toc-text">22. 超级用户列表_1.0</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#23-Fake-Location-Map"><span class="toc-number">24.</span> <span class="toc-text">23. Fake Location Map</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#24-example"><span class="toc-number">25.</span> <span class="toc-text">24. example</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/%E9%BA%A5%E7%90%86%E6%B5%A9%E5%BE%91/" title="[25] 麥理浩徑"><img src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-6.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="[25] 麥理浩徑"/></a><div class="content"><a class="title" href="/posts/%E9%BA%A5%E7%90%86%E6%B5%A9%E5%BE%91/" title="[25] 麥理浩徑">[25] 麥理浩徑</a><time datetime="2025-12-18T15:18:33.000Z" title="發表於 2025-12-18 23:18:33">2025-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/xiaomi-mimo-timeline/" title="[24] Xiaomi MIMO 之 时间线"><img src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-7.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="[24] Xiaomi MIMO 之 时间线"/></a><div class="content"><a class="title" href="/posts/xiaomi-mimo-timeline/" title="[24] Xiaomi MIMO 之 时间线">[24] Xiaomi MIMO 之 时间线</a><time datetime="2025-12-18T04:11:33.000Z" title="發表於 2025-12-18 12:11:33">2025-12-18</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/usb-timeline/" title="[23] USB 之 时间线"><img src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-2.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="[23] USB 之 时间线"/></a><div class="content"><a class="title" href="/posts/usb-timeline/" title="[23] USB 之 时间线">[23] USB 之 时间线</a><time datetime="2025-12-16T08:16:33.000Z" title="發表於 2025-12-16 16:16:33">2025-12-16</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/%E7%BE%8E%E5%9B%A2%E4%BC%97%E5%8C%85/" title="[22] 美团众包"><img src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-4.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="[22] 美团众包"/></a><div class="content"><a class="title" href="/posts/%E7%BE%8E%E5%9B%A2%E4%BC%97%E5%8C%85/" title="[22] 美团众包">[22] 美团众包</a><time datetime="2025-12-11T18:16:33.000Z" title="發表於 2025-12-12 02:16:33">2025-12-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/k20-pro-revival/" title="K20 Pro 复活篇"><img src="/img/loading.gif" data-lazy-src="https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-6.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="K20 Pro 复活篇"/></a><div class="content"><a class="title" href="/posts/k20-pro-revival/" title="K20 Pro 复活篇">K20 Pro 复活篇</a><time datetime="2025-12-09T16:31:33.000Z" title="發表於 2025-12-10 00:31:33">2025-12-10</time></div></div></div></div><div class="card-widget ads-wrap"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8919908724705274" data-ad-slot="8108145410" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle=window.adsbygoogle||[]).push({})</script></div></div></div></main><footer id="footer" style="background-image: url(https://oss.012700.xyz/butterfly/2024/11/butterfly-docs-changelog-cover-6.png);"><div class="footer-flex"><div class="footer-flex-items"><div class="footer-flex-item"><div class="footer-flex-title">文檔</div><div class="footer-flex-content"><a href="/posts/21cfbf15/" target="_blank" title="🚀 快速開始">🚀 快速開始</a><a href="/posts/dc584b87/" target="_blank" title="📑 主題頁面">📑 主題頁面</a><a href="/posts/4aa8abbe/" target="_blank" title="📌 主題配置">📌 主題配置</a><a href="/posts/ceeb73f/" target="_blank" title="⚔️ 標簽外挂">⚔️ 標簽外挂</a><a href="/posts/98d20436/" target="_blank" title="❓ 主題問答">❓ 主題問答</a><a href="/posts/4073eda/" target="_blank" title="⚡️ 進階教程">⚡️ 進階教程</a></div></div></div><div class="footer-flex-items"><div class="footer-flex-item"><div class="footer-flex-title">其他</div><div class="footer-flex-content"><a href="/Gallery/" target="_blank" title="圖庫">圖庫</a><a href="/messageboard/" target="_blank" title="留言板">留言板</a><a href="/talking/" target="_blank" title="說說">說說</a><a href="/link/" target="_blank" title="示例">示例</a><a href="/links/" target="_blank" title="友链">友链</a></div></div></div><div class="footer-flex-items"><div class="footer-flex-item"><div class="footer-flex-title">框架</div><div class="footer-flex-content"><a href="https://hexo.io/zh-cn/" rel="external nofollow noreferrer" target="_blank" title="Hexo">Hexo</a><a href="https://butterfly.js.org/" target="_blank" title="Butterfly">Butterfly</a></div></div></div><div class="footer-flex-items"><div class="footer-flex-item"><div class="footer-flex-title">語言</div><div class="footer-flex-content"><a href="/en/" target="_blank" title="English">English</a><a href="/" target="_blank" title="中文">中文</a></div></div></div></div><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2019 - 2025 By Jerry</span><span class="framework-info"><span class="footer-separator">|</span><span>框架 </span><a target="_blank" rel="noopener external nofollow noreferrer" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主題 </span><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.0</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="閱讀模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="切換日夜模式"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="單欄與雙欄切換"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="設定"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目錄"><i class="fas fa-list-ul"></i></button><button id="translateLink" type="button" title="簡繁轉換">簡</button><button id="go-up" type="button" title="回到頂部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="https://jsd.012700.xyz/npm/hexo-theme-butterfly/source/js/utils.min.js"></script><script src="https://jsd.012700.xyz/npm/hexo-theme-butterfly/source/js/main.min.js"></script><script src="https://jsd.012700.xyz/npm/hexo-theme-butterfly/source/js/tw_cn.min.js"></script><script src="https://jsd.012700.xyz/npm/@fancyapps/ui/dist/fancybox/fancybox.umd.min.js"></script><script src="https://jsd.012700.xyz/npm/instant.page/instantpage.min.js" type="module"></script><script src="https://jsd.012700.xyz/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"><script>(() => {
+  const runMermaid = ele => {
+    window.loadMermaid = true
+    const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default'
+
+    ele.forEach((item, index) => {
+      const mermaidSrc = item.firstElementChild
+      const mermaidThemeConfig = `%%{init:{ 'theme':'${theme}'}}%%\n`
+      const mermaidID = `mermaid-${index}`
+      const mermaidDefinition = mermaidThemeConfig + mermaidSrc.textContent
+
+      const renderFn = mermaid.render(mermaidID, mermaidDefinition)
+      const renderMermaid = svg => {
+        mermaidSrc.insertAdjacentHTML('afterend', svg)
+      }
+
+      // mermaid v9 and v10 compatibility
+      typeof renderFn === 'string' ? renderMermaid(renderFn) : renderFn.then(({ svg }) => renderMermaid(svg))
+    })
+  }
+
+  const codeToMermaid = () => {
+    const codeMermaidEle = document.querySelectorAll('pre > code.mermaid')
+    if (codeMermaidEle.length === 0) return
+
+    codeMermaidEle.forEach(ele => {
+      const preEle = document.createElement('pre')
+      preEle.className = 'mermaid-src'
+      preEle.hidden = true
+      preEle.textContent = ele.textContent
+      const newEle = document.createElement('div')
+      newEle.className = 'mermaid-wrap'
+      newEle.appendChild(preEle)
+      ele.parentNode.replaceWith(newEle)
+    })
+  }
+
+  const loadMermaid = () => {
+    if (true) codeToMermaid()
+    const $mermaid = document.querySelectorAll('#article-container .mermaid-wrap')
+    if ($mermaid.length === 0) return
+
+    const runMermaidFn = () => runMermaid($mermaid)
+    btf.addGlobalFn('themeChange', runMermaidFn, 'mermaid')
+    window.loadMermaid ? runMermaidFn() : btf.getScript('https://jsd.012700.xyz/npm/mermaid/dist/mermaid.min.js').then(runMermaidFn)
+  }
+
+  btf.addGlobalFn('encrypt', loadMermaid, 'mermaid')
+  window.pjax ? loadMermaid() : document.addEventListener('DOMContentLoaded', loadMermaid)
+})()</script><script>(() => {
+  const applyThemeDefaultsConfig = theme => {
+    if (theme === 'dark-mode') {
+      Chart.defaults.color = "rgba(255, 255, 255, 0.8)"
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.2)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    } else {
+      Chart.defaults.color = "rgba(0, 0, 0, 0.8)"
+      Chart.defaults.borderColor = "rgba(0, 0, 0, 0.1)"
+      Chart.defaults.scale.ticks.backdropColor = "transparent"
+    }
+  }
+
+  // Recursively traverse the config object and automatically apply theme-specific color schemes
+  const applyThemeConfig = (obj, theme) => {
+    if (typeof obj !== 'object' || obj === null) return
+
+    Object.keys(obj).forEach(key => {
+      const value = obj[key]
+      // If the property is an object and has theme-specific options, apply them
+      if (typeof value === 'object' && value !== null) {
+        if (value[theme]) {
+          obj[key] = value[theme] // Apply the value for the current theme
+        } else {
+          // Recursively process child objects
+          applyThemeConfig(value, theme)
+        }
+      }
+    })
+  }
+
+  const runChartJS = ele => {
+    window.loadChartJS = true
+
+    Array.from(ele).forEach((item, index) => {
+      const chartSrc = item.firstElementChild
+      const chartID = item.getAttribute('data-chartjs-id') || ('chartjs-' + index) // Use custom ID or default ID
+      const width = item.getAttribute('data-width')
+      const existingCanvas = document.getElementById(chartID)
+
+      // If a canvas already exists, remove it to avoid rendering duplicates
+      if (existingCanvas) {
+          existingCanvas.parentNode.remove()
+      }
+
+      const chartDefinition = chartSrc.textContent
+      const canvas = document.createElement('canvas')
+      canvas.id = chartID
+
+      const div = document.createElement('div')
+      div.className = 'chartjs-wrap'
+
+      if (width) {
+        div.style.width = width
+      }
+
+      div.appendChild(canvas)
+      chartSrc.insertAdjacentElement('afterend', div)
+
+      const ctx = document.getElementById(chartID).getContext('2d')
+
+      const config = JSON.parse(chartDefinition)
+
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark-mode' : 'light-mode'
+
+      // Set default styles (initial setup)
+      applyThemeDefaultsConfig(theme)
+
+      // Automatically traverse the config and apply dual-mode color schemes
+      applyThemeConfig(config, theme)
+
+      new Chart(ctx, config)
+    })
+  }
+
+  const loadChartJS = () => {
+    const chartJSEle = document.querySelectorAll('#article-container .chartjs-container')
+    if (chartJSEle.length === 0) return
+
+    window.loadChartJS ? runChartJS(chartJSEle) : btf.getScript('https://jsd.012700.xyz/npm/chart.js/dist/chart.umd.min.js').then(() => runChartJS(chartJSEle))
+  }
+
+  // Listen for theme change events
+  btf.addGlobalFn('themeChange', loadChartJS, 'chartjs')
+  btf.addGlobalFn('encrypt', loadChartJS, 'chartjs')
+
+  window.pjax ? loadChartJS() : document.addEventListener('DOMContentLoaded', loadChartJS)
+})()</script></div><script>window.newestComments = {
+  changeContent: content => {
+    if (content === '') return content
+
+    content = content.replace(/<img.*?src="(.*?)"?[^\>]+>/ig, '[圖片]') // replace image link
+    content = content.replace(/<a[^>]+?href=["']?([^"']+)["']?[^>]*>([^<]+)<\/a>/gi, '[連結]') // replace url
+    content = content.replace(/<pre><code>.*?<\/pre>/gi, '[代碼]') // replace code
+    content = content.replace(/<code>.*?<\/code>/gi, '[代碼]') // replace code
+    content = content.replace(/<[^>]+>/g, "") // remove html tag
+
+    if (content.length > 150) {
+      content = content.substring(0, 150) + '...'
+    }
+    return content
+  },
+
+  generateHtml: (array, ele) => {
+    let result = ''
+
+    if (array.length) {
+      for (let i = 0; i < array.length; i++) {
+        result += '<div class="aside-list-item">'
+
+        if (true && array[i].avatar) {
+          const imgAttr = 'data-lazy-src'
+          const lazyloadNative = ''
+          result += `<a href="${array[i].url}" class="thumbnail"><img ${imgAttr}="${array[i].avatar}" alt="${array[i].nick}" ${lazyloadNative}></a>`
+        }
+
+        result += `<div class="content">
+        <a class="comment" href="${array[i].url}" title="${array[i].content}">${array[i].content}</a>
+        <div class="name"><span>${array[i].nick} / </span><time datetime="${array[i].date}">${btf.diffDate(array[i].date, true)}</time></div>
+        </div></div>`
+      }
+    } else {
+      result += '暫無評論'
+    }
+
+    ele.innerHTML = result
+    window.lazyLoadInstance && window.lazyLoadInstance.update()
+    window.pjax && window.pjax.refresh(ele)
+  },
+
+  newestCommentInit: (name, getComment) => {
+    const $dom = document.querySelector('#card-newest-comments .aside-list')
+    if ($dom) {
+      const data = btf.saveToLocal.get(name)
+      if (data) {
+        newestComments.generateHtml(JSON.parse(data), $dom)
+      } else {
+        getComment($dom)
+      }
+    }
+  },
+
+  run: (name, getComment) => {
+    newestComments.newestCommentInit(name, getComment)
+    btf.addGlobalFn('pjaxComplete', () => newestComments.newestCommentInit(name, getComment), name)
+  }
+}</script><script>window.addEventListener('load', () => {
+  const keyName = 'artalk-newest-comments'
+  const { changeContent, generateHtml, run } = window.newestComments
+
+  const getAvatarValue = async () => {
+    const predefinedAvatarCdn = ''
+    const predefinedAvatarDefault = ''
+
+    const avatarDefaultFormat = e => e.startsWith('d=') ? e : `d=${e}`
+
+    if (predefinedAvatarCdn && predefinedAvatarDefault) {
+      return { avatarCdn: predefinedAvatarCdn, avatarDefault: avatarDefaultFormat(predefinedAvatarDefault) }
+    }
+
+    try {
+      const res = await fetch('https://artalk.crazywong.com/api/v2/conf')
+      const result = await res.json()
+      const { mirror, params, default: defaults } = result.frontend_conf.gravatar
+      const avatarCdn = predefinedAvatarCdn || mirror
+      let avatarDefault = avatarDefaultFormat(predefinedAvatarDefault || params || defaults)
+      return { avatarCdn, avatarDefault}
+    } catch (e) {
+      console.error(e)
+      return { avatarCdn: predefinedAvatarCdn, avatarDefault: avatarDefaultFormat(predefinedAvatarDefault) }
+    }
+  }
+
+  const searchParams = new URLSearchParams({
+    'site_name': 'Butterfly-Docs',
+    'limit': '12', // Fetch more comments to filter pending comments
+  })
+
+  const getComment = async (ele) => {
+    try {
+      const res = await fetch(`https://artalk.crazywong.com/api/v2/stats/latest_comments?${searchParams}`)
+      const result = await res.json()
+      const { avatarCdn, avatarDefault } = await getAvatarValue()
+      const artalk = result.data
+        .filter(e => !e.is_pending) // Filter pending comments
+        .slice(0, 6) // Limit the number of comments
+        .map(e => {
+          const avatar = avatarCdn && e.email_encrypted ? `${avatarCdn}${e.email_encrypted}?${avatarDefault}` : ''
+          return {
+            'avatar': avatar,
+            'content': changeContent(e.content_marked),
+            'nick': e.nick,
+            'url': e.page_url,
+            'date': e.date,
+          }
+        })
+      btf.saveToLocal.set(keyName, JSON.stringify(artalk), 5/(60*24))
+      generateHtml(artalk, ele)
+    } catch (e) {
+      console.log(e)
+      ele.textContent= "無法取得評論，請確認配置是否正確"
+    }
+  }
+
+  run(keyName, getComment)
+})</script><script data-pjax src="/self/btf.js"></script><script defer="defer" id="ribbon" src="https://jsd.012700.xyz/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script src="https://jsd.012700.xyz/npm/pjax/pjax.min.js"></script><script>(() => {
+  const pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+  window.pjax = new Pjax({
+    elements: 'a:not([target="_blank"])',
+    selectors: pjaxSelectors,
+    cacheBust: false,
+    analytics: false,
+    scrollRestoration: false
+  })
+
+  const triggerPjaxFn = (val) => {
+    if (!val) return
+    Object.values(val).forEach(fn => {
+      try {
+        fn()
+      } catch (err) {
+        console.debug('Pjax callback failed:', err)
+      }
+    })
+  }
+
+  document.addEventListener('pjax:send', () => {
+    // removeEventListener
+    btf.removeGlobalFnEvent('pjaxSendOnce')
+    btf.removeGlobalFnEvent('themeChange')
+
+    // reset readmode
+    const $bodyClassList = document.body.classList
+    if ($bodyClassList.contains('read-mode')) $bodyClassList.remove('read-mode')
+
+    triggerPjaxFn(window.globalFn.pjaxSend)
+  })
+
+  document.addEventListener('pjax:complete', () => {
+    btf.removeGlobalFnEvent('pjaxCompleteOnce')
+    document.querySelectorAll('script[data-pjax]').forEach(item => {
+      const newScript = document.createElement('script')
+      const content = item.text || item.textContent || item.innerHTML || ""
+      Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+      newScript.appendChild(document.createTextNode(content))
+      item.parentNode.replaceChild(newScript, item)
+    })
+
+    triggerPjaxFn(window.globalFn.pjaxComplete)
+  })
+
+  document.addEventListener('pjax:error', e => {
+    if (e.request.status === 404) {
+      const usePjax = true
+      true
+        ? (usePjax ? pjax.loadUrl('/404') : window.location.href = '/404')
+        : window.location.href = e.request.responseURL
+    }
+  })
+})()</script><script>(() => {
+  const option = null
+  const config = {"site_uv":true,"site_pv":true,"page_pv":true,"token":"qTvz1SkmPDt785fgh6BpiA5qiFFIVUwxj8Ft+rPW+cdN59v1hXjwRgSmy0+ji9m+oLlcxvo2NfDSMa6epVl3NTlsN3ejCIwWeP8Y51aEJ0Sbem4UexGmJLspB7AkOBId2SdtT6QWEBlGmFIIQgchQ2zAKYxTmc/kpBED5aLSr+3uvmQ9/G7FJQeVFpveDkK0xM1hu36xq4a6/FSeROxtoEp5zabzTWiYTlLsQzIl/NlELnCq3nxK+oo/vl3UQo/oM/rae/gJX/MaVKsgIUCd2ABJogNkx2KTenBIBpbPki5FzOgPh6/z4GPa4HvhNO51DDVG1SEQZooqEYmt/gnybLBWFbN+7liZWw=="}
+
+  const runTrack = () => {
+    if (typeof umami !== 'undefined' && typeof umami.track === 'function') {
+      umami.track(props => ({ ...props, url: window.location.pathname, title: GLOBAL_CONFIG_SITE.title }))
+    } else {
+      console.warn('Umami Analytics: umami.track is not available')
+    }
+  }
+
+  const loadUmamiJS = () => {
+    btf.getScript('https://umami.012700.xyz/script.js', {
+      'data-website-id': '2a796d6c-6499-42d8-8eb4-d9a2930b0ff3',
+      'data-auto-track': 'false',
+      ...option
+    }).then(() => {
+      runTrack()
+    }).catch(error => {
+      console.error('Umami Analytics: Error loading script', error)
+    })
+  }
+
+  const getData = async (isPost) => {
+    try {
+      const now = Date.now()
+      const keyUrl = isPost ? `&url=${window.location.pathname}` : ''
+      const headerList = { 'Accept': 'application/json' }
+
+      if (true) {
+        headerList['Authorization'] = `Bearer ${config.token}`
+      } else {
+        headerList['x-umami-api-key'] = config.token
+      }
+
+      const res = await fetch(`https://umami.012700.xyz/api/websites/2a796d6c-6499-42d8-8eb4-d9a2930b0ff3/stats?startAt=0000000000&endAt=${now}${keyUrl}`, {
+        method: "GET",
+        headers: headerList
+      })
+
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
+
+      return await res.json()
+    } catch (error) {
+      console.error('Umami Analytics: Failed to fetch data', error)
+      throw error
+    }
+  }
+
+  const insertData = async () => {
+    try {
+      if (GLOBAL_CONFIG_SITE.pageType === 'post' && config.page_pv) {
+        const pagePV = document.getElementById('umamiPV')
+        if (pagePV) {
+          const data = await getData(true)
+          if (data && data.pageviews && typeof data.pageviews.value !== 'undefined') {
+            pagePV.textContent = data.pageviews.value
+          } else {
+            console.warn('Umami Analytics: Invalid page view data received')
+          }
+        }
+      }
+
+      if (config.site_uv || config.site_pv) {
+        const data = await getData(false)
+
+        if (config.site_uv) {
+          const siteUV = document.getElementById('umami-site-uv')
+          if (siteUV && data && data.visitors && typeof data.visitors.value !== 'undefined') {
+            siteUV.textContent = data.visitors.value
+          } else if (siteUV) {
+            console.warn('Umami Analytics: Invalid site UV data received')
+          }
+        }
+
+        if (config.site_pv) {
+          const sitePV = document.getElementById('umami-site-pv')
+          if (sitePV && data && data.pageviews && typeof data.pageviews.value !== 'undefined') {
+            sitePV.textContent = data.pageviews.value
+          } else if (sitePV) {
+            console.warn('Umami Analytics: Invalid site PV data received')
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Umami Analytics: Failed to insert data', error)
+    }
+  }
+
+  btf.addGlobalFn('pjaxComplete', runTrack, 'umami_analytics_run_track')
+  btf.addGlobalFn('pjaxComplete', insertData, 'umami_analytics_insert')
+
+
+  loadUmamiJS()
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', insertData)
+  } else {
+    setTimeout(insertData, 100)
+  }
+})()</script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜尋</span><i class="fas fa-spinner fa-pulse" id="loading-status" hidden="hidden"></i><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="text-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  正在加載數據庫</span></div><div class="local-search-input"><input placeholder="搜尋文章" type="text"/></div><hr/><div id="local-search-results"></div><div class="ais-Pagination" id="local-search-pagination" style="display:none;"><ul class="ais-Pagination-list"></ul></div><div id="local-search-stats"></div></div><div id="search-mask"></div><script src="https://jsd.012700.xyz/npm/hexo-theme-butterfly/source/js/search/local-search.min.js"></script></div></div></body></html>
